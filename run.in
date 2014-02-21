@@ -1,0 +1,9 @@
+#!/bin/sh
+
+ABS_BUILDDIR='@abs_builddir@'
+
+export GI_TYPELIB_PATH="${ABS_BUILDDIR}/src/:$GI_TYPELIB_PATH"
+export LD_LIBRARY_PATH="${ABS_BUILDDIR}/src/.libs:$LD_LIBRARY_PATH"
+export   LPF_PROVIDERS="${ABS_BUILDDIR}/src/providers/.libs"
+
+exec $@

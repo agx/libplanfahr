@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<book id="index" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <bookinfo>
+    <title>libplanfahr Reference Manual</title>
+  </bookinfo>
+
+  <chapter>
+    <title>Tutorial</title>
+    <xi:include href="build-howto.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Core API</title>
+    <xi:include href="xml/lpf-loc.xml"/>
+    <xi:include href="xml/lpf-manager.xml"/>
+    <xi:include href="xml/lpf-stop.xml"/>
+    <xi:include href="xml/lpf-trip.xml"/>
+    <xi:include href="xml/lpf-trip-part.xml"/>
+    <xi:include href="xml/lpf-provider.xml"/>
+  </chapter>
+
+  <index>
+    <title>Index</title>
+  </index>
+
+  <xi:include href="xml/annotation-glossary.xml">
+    <xi:fallback />
+  </xi:include>
+
+</book>

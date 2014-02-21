@@ -1,0 +1,7 @@
+LIBPLANFAHR_0.0.0 {
+  global:
+        lpf_*;
+  local:
+	*;
+};
+

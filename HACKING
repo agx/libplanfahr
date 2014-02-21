@@ -1,0 +1,27 @@
+# Tests #
+
+Running the tests
+
+    make check
+
+To run a single test in more detail use e.g.
+
+    gtester --verbose src/providers/tests/de-db
+
+# Debugging #
+You can use the LPF_DEBUG variable to make libplanfahr write out the querry
+results. E.g.
+
+   LPF_DEBUG=provider ./run python examples/trip-query.py Gelsenkirchen Essen
+
+will put all queries to ~/.cache/libplanfahr/<provider>/.
+
+To build with extensive debugging information use
+
+   ./configure --enable-debug
+
+# Coding Style #
+* Use spaces not tabs
+* indentation is 4 spaces by default
+* Private methods don't use <obj_name> as prefix
+* Public methods have "self" as first argument
