@@ -5,9 +5,10 @@ like JavaScript and Python.
 
 The API is by no means stable yet.
 
-It depends on glib, libsoup, libxml2:
+It depends on glib, libsoup, libxml2, gnome-common and gtk-doc-tools:
 
-    apt-get install libsoup2.4-dev libglib2.0-dev libxml2-dev gobject-introspection
+    apt-get install libsoup2.4-dev libglib2.0-dev libxml2-dev libgirepository1.0-dev \
+                    gnome-common gtk-doc-tools
 
 To build from source use:
 
