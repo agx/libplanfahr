@@ -55,7 +55,7 @@ typedef struct {
 GType lpf_loc_get_type (void);
 /* FIXME: Only used by providers, don't export symbol */
 gpointer lpf_loc_get_opaque (LpfLoc *self);
-gpointer lpf_loc_set_opaque (LpfLoc *self, gpointer opaque);
+void lpf_loc_set_opaque (LpfLoc *self, gpointer opaque);
 
 G_END_DECLS
 

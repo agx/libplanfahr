@@ -80,6 +80,7 @@ static gchar *plugin_path(const char *name)
 
 /**
  * lpf_manager_get_available_providers:
+ *
  * Returns: (transfer full): List of available providers
  */
 GStrv lpf_manager_get_available_providers(void)

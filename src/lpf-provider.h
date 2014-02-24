@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 #define LPF_PROVIDER_ERROR g_spawn_error_quark ()
 
 /**
- * LpfProviderError
+ * LpfProviderError:
  * @LPF_PROVIDER_ERROR_REQUEST_FAILED: a request to fetch data from a remote failed
  * @LPF_PROVIDER_ERROR_PARSE_FAILED:   parsing the reply failed
  *

@@ -179,6 +179,14 @@ lpf_loc_init (LpfLoc *self)
 {
 }
 
+/**
+ * lpf_loc_get_opaque: (skip)
+ * @self: a #LpfLoc
+ *
+ * Get the opaque data stored by a provider.
+ *
+ * Returns: pointer to the opaue data
+ */
 gpointer
 lpf_loc_get_opaque(LpfLoc *self)
 {
@@ -187,10 +195,18 @@ lpf_loc_get_opaque(LpfLoc *self)
     return priv->opaque;
 }
 
-gpointer
+/**
+ * lpf_loc_set_opaque: (skip)
+ * @self: a #LpfLoc
+ * @opaque: pointer to opaque data
+ *
+ * Set the opaque data stored by a provider. The data will
+ * be freed using g_free.
+ */
+void
 lpf_loc_set_opaque(LpfLoc *self, gpointer opaque)
 {
     LpfLocPrivate *priv = GET_PRIVATE (self);
 
-    return priv->opaque = opaque;
+    priv->opaque = opaque;
 }

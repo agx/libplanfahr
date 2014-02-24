@@ -38,7 +38,7 @@ G_BEGIN_DECLS
 #define LPF_MANAGER_ERROR g_spawn_error_quark ()
 
 /**
- * LpfManagerError
+ * LpfManagerError:
  * @LPF_MANAGER_ERROR_ACTIVATION_FAILED: activation of the provider failed
  *
  * Error codes returned by manager

@@ -116,10 +116,8 @@ lpf_stop_set_property (GObject *object,
     }
 }
 
-/**
- * calc_delay: Calculate the time difference between planned and
- * real time in minutes
- */
+/* calc_delay: Calculate the time difference between planned and real time in
+ * minutes */
 static gint
 calc_delay(GDateTime *planned, GDateTime *real)
 {

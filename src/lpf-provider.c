@@ -249,3 +249,9 @@ static void
 lpf_provider_init (LpfProvider *self G_GNUC_UNUSED)
 {
 }
+
+/**
+ * lpf_provider_create: (skip)
+ *
+ * Create the provider
+ */
