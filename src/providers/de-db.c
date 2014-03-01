@@ -538,7 +538,7 @@ decompress (const gchar *in, gsize inlen,
     gsize read, written;
     GConverter *decomp = NULL;
     GConverterResult conv;
-    gsize outbuflen = inlen * 2;
+    gsize outbuflen, buflen, outpos = 0, inpos = 0;
     gchar *outbuf = NULL;
 
     g_return_val_if_fail (inlen > 0, ret);
@@ -546,43 +546,49 @@ decompress (const gchar *in, gsize inlen,
     g_return_val_if_fail (err, ret);
 
     decomp = (GConverter *)g_zlib_decompressor_new (G_ZLIB_COMPRESSOR_FORMAT_GZIP);
-    while (TRUE) {
-        g_free (outbuf);
-        outbuf = g_try_malloc (outbuflen);
-        if (outbuf == NULL)
-            break;
+
+    outbuflen = buflen = inlen * 2;
+    outbuf = g_try_malloc (outbuflen);
+    if (outbuf == NULL)
+        goto out;
+
+    do {
         conv = g_converter_convert (decomp,
-                                    in, inlen,
-                                    outbuf, outbuflen,
+                                    (in + inpos), inlen,
+                                    (outbuf + outpos), buflen,
                                     G_CONVERTER_INPUT_AT_END,
                                     &read, &written,
                                     err);
-        if (conv == G_CONVERTER_ERROR) {
-            if ((*err)->code == G_IO_ERROR_NO_SPACE) {
-                outbuflen *= 2;
-                g_clear_error (err);
-                continue;
-            } else {
-                break;
-            }
-        } else if (conv == G_CONVERTER_FINISHED) {
-            if (read != inlen) {
-                g_warning ("Expected %" G_GSIZE_FORMAT
-                           ", got %" G_GSIZE_FORMAT, inlen, read);
-                break;
-            }
-            ret = 0;
-            break;
-        } else {
-            g_warning ("Unhandled condition %d", conv);
-            ret = -1;
-            break;
-        }
-    }
 
+        switch (conv) {
+        case G_CONVERTER_ERROR:
+                goto out;
+        case G_CONVERTER_FINISHED:
+            outpos += written;
+            ret = 0;
+            goto out;
+        case G_CONVERTER_CONVERTED:
+            outpos += written;
+            inpos += read;
+            inlen -= read;
+            if (outbuflen - written < buflen) {
+                outbuflen += buflen;
+                outbuf = g_try_realloc (outbuf, outbuflen);
+                if (outbuf == NULL)
+                    goto out;
+            }
+            break;
+        case G_CONVERTER_FLUSHED:
+        default:
+            g_warning ("Unhandled condition %d", conv);
+            goto out;
+        }
+    } while (TRUE);
+
+out:
     if (ret == 0) {
         *out = outbuf;
-        *outlen = written;
+        *outlen = outpos;
     } else
         g_free (outbuf);
 
