@@ -686,7 +686,7 @@ lpf_provider_de_db_get_trips (LpfProvider *self,
         goto out;
 
     datestr = g_date_time_format (date, "%d.%m.%y");
-    timestr = g_date_time_format (date, "%H:%m");
+    timestr = g_date_time_format (date, "%H:%M");
 
     start_id = lpf_loc_get_opaque(start);
     end_id = lpf_loc_get_opaque(end);
