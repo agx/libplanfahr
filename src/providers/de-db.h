@@ -19,8 +19,6 @@
 #ifndef _LPF_PROVIDER_DE_DB_H
 #define _LPF_PROVIDER_DE_DB_H
 
-#include "lpf-provider.h"
-
 G_BEGIN_DECLS
 #define LPF_TYPE_PROVIDER_DE_DB lpf_provider_de_db_get_type()
 #define LPF_PROVIDER_DE_DB(obj) \
@@ -35,11 +33,11 @@ G_BEGIN_DECLS
   (G_TYPE_INSTANCE_GET_CLASS ((obj), LPF_TYPE_PROVIDER_DE_DB, LpfProviderDe_DbClass))
 
 typedef struct {
-    LpfProvider parent;
+    GObject parent;
 } LpfProviderDeDb;
 
 typedef struct {
-    LpfProviderClass parent_class;
+    GObjectClass parent_class;
 } LpfProviderDeDbClass;
 
 GType lpf_provider_de_db_get_type (void);

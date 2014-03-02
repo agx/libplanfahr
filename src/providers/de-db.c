@@ -31,6 +31,7 @@ n */
 
 #include "lpf-priv.h"
 #include "lpf-loc.h"
+#include "lpf-provider.h"
 #include "lpf-trip.h"
 #include "lpf-trip-part.h"
 #include "lpf-stop.h"
@@ -42,6 +43,12 @@ n */
 
 #define PROVIDER_NAME "de_db"
 
+enum {
+    PROP_0,
+    PROP_NAME,
+    LAST_PROP
+};
+
 /* transfers data between invocation and passed in callback */
 typedef struct _LpfProviderGotItUserData {
     LpfProvider *self;
@@ -49,7 +56,11 @@ typedef struct _LpfProviderGotItUserData {
     gpointer user_data;
 } LpfProviderGotItUserData;
 
-G_DEFINE_TYPE (LpfProviderDeDb, lpf_provider_de_db, LPF_TYPE_PROVIDER)
+static void lpf_provider_de_db_interface_init (LpfProviderInterface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (LpfProviderDeDb, lpf_provider_de_db, G_TYPE_OBJECT,
+                         G_IMPLEMENT_INTERFACE (LPF_TYPE_PROVIDER, lpf_provider_de_db_interface_init));
+
 #define GET_PRIVATE(o) \
   (G_TYPE_INSTANCE_GET_PRIVATE ((o), LPF_TYPE_PROVIDER_DE_DB, LpfProviderDeDbPrivate))
 
@@ -65,15 +76,64 @@ lpf_provider_create (void)
 typedef struct _LpfProviderDeDbPrivate LpfProviderDeDbPrivate;
 
 struct _LpfProviderDeDbPrivate {
+    gchar *name;
     SoupSession *session;
     char *logdir;
     gboolean debug;
 };
 
-static void
-lpf_provider_de_db_finalize (GObject *object)
+
+static const char*
+lpf_provider_de_db_get_name (LpfProvider *self)
 {
-    G_OBJECT_CLASS (lpf_provider_de_db_parent_class)->finalize (object);
+    LpfProviderDeDbPrivate *priv = GET_PRIVATE (self);
+
+    return priv->name;
+}
+
+
+static void
+set_property (GObject *object, guint prop_id,
+              const GValue *value, GParamSpec *pspec)
+{
+    LpfProviderDeDbPrivate *priv = GET_PRIVATE (object);
+
+    switch (prop_id) {
+    case PROP_NAME:
+        /* construct only */
+        priv->name = g_value_dup_string (value);
+        break;
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+        break;
+    }
+}
+
+
+static void
+get_property (GObject *object, guint prop_id,
+              GValue *value, GParamSpec *pspec)
+{
+    LpfProviderDeDbPrivate *priv = GET_PRIVATE (object);
+
+    switch (prop_id) {
+    case PROP_NAME:
+        g_value_set_string (value, priv->name);
+        break;
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+        break;
+    }
+}
+
+
+static void
+lpf_provider_de_db_finalize (GObject *self)
+{
+    LpfProviderDeDbPrivate *priv = GET_PRIVATE(self);
+
+    g_free (priv->name);
+    G_OBJECT_CLASS (lpf_provider_de_db_parent_class)->finalize (self);
 }
 
 static void
@@ -733,15 +793,26 @@ static void
 lpf_provider_de_db_class_init (LpfProviderDeDbClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
-    LpfProviderClass *plugin_class = LPF_PROVIDER_CLASS (klass);
 
     g_type_class_add_private (klass, sizeof (LpfProviderDeDbPrivate));
 
-    plugin_class->activate = lpf_provider_de_db_activate;
-    plugin_class->deactivate = lpf_provider_de_db_deactivate;
-    plugin_class->get_locs = lpf_provider_de_db_get_locs;
-    plugin_class->get_trips = lpf_provider_de_db_get_trips;
+    object_class->get_property = get_property;
+    object_class->set_property = set_property;
     object_class->finalize = lpf_provider_de_db_finalize;
+
+    g_object_class_override_property (object_class,
+                                      PROP_NAME,
+                                      "name");
+}
+
+static void
+lpf_provider_de_db_interface_init (LpfProviderInterface *iface)
+{
+    iface->get_name = lpf_provider_de_db_get_name;
+    iface->activate = lpf_provider_de_db_activate;
+    iface->deactivate = lpf_provider_de_db_deactivate;
+    iface->get_locs = lpf_provider_de_db_get_locs;
+    iface->get_trips = lpf_provider_de_db_get_trips;
 }
 
 static void

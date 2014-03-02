@@ -46,45 +46,37 @@ typedef enum {
     LPF_PROVIDER_ERROR_PARSE_FAILED,
 } LpfProviderError;
 
-#define LPF_TYPE_PROVIDER lpf_provider_get_type()
+#define LPF_TYPE_PROVIDER (lpf_provider_get_type())
 
 #define LPF_PROVIDER(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), LPF_TYPE_PROVIDER, LpfProvider))
 
-#define LPF_PROVIDER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), LPF_TYPE_PROVIDER, LpfProviderClass))
-
 #define LPF_IS_PROVIDER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), LPF_TYPE_PROVIDER))
 
-#define LPF_IS_PROVIDER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), LPF_TYPE_PROVIDER))
-
-#define LPF_PROVIDER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), LPF_TYPE_PROVIDER, LpfProviderClass))
+#define LPF_PROVIDER_GET_INTERFACE(obj) \
+  (G_TYPE_INSTANCE_GET_INTERFACE ((obj), LPF_TYPE_PROVIDER, LpfProviderInterface))
 
 #define LPF_PROVIDER_PROP_NAME "name"
 
 typedef void (*LpfProviderGotLocsNotify) (GSList *locs, gpointer user_data, GError *err);
 typedef void (*LpfProviderGotTripsNotify) (GSList *trips, gpointer user_data, GError *err);
 
-typedef struct {
-    GObject parent;
-} LpfProvider;
+typedef struct _LpfProvider LpfProvider;
 
 typedef struct {
-    GObjectClass parent_class;
+    GTypeInterface parent;
 
     void (*activate)   (LpfProvider *self, GObject *obj);
     void (*deactivate) (LpfProvider *self, GObject *obj);
 
+    const gchar* (*get_name) (LpfProvider *self);
+
     gint (*get_locs)   (LpfProvider *self, const gchar *match, LpfProviderGotLocsNotify callback, gpointer user_data);
     gint (*get_trips)  (LpfProvider *self, LpfLoc *start, LpfLoc *end,  GDateTime *date, guint64 flags, LpfProviderGotLocsNotify callback, gpointer user_data);
-} LpfProviderClass;
+} LpfProviderInterface;
 
 GType lpf_provider_get_type (void);
-
-LpfProvider *lpf_provider_new (void);
 
 typedef LpfProvider *(*LpfProviderCreateFunc) (void);
 LpfProvider *lpf_provider_create (void);
