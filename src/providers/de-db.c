@@ -49,7 +49,7 @@ enum {
     LAST_PROP
 };
 
-/* transfers data between invocation and passed in callback */
+/* transfers data between invocation and the passed in callback */
 typedef struct _LpfProviderGotItUserData {
     LpfProvider *self;
     gpointer callback;
@@ -58,7 +58,7 @@ typedef struct _LpfProviderGotItUserData {
 
 static void lpf_provider_de_db_interface_init (LpfProviderInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (LpfProviderDeDb, lpf_provider_de_db, G_TYPE_OBJECT,
+G_DEFINE_TYPE_WITH_CODE (LpfProviderDeDb, lpf_provider_de_db, LPF_TYPE_PROVIDER_HAFAS_BIN6,
                          G_IMPLEMENT_INTERFACE (LPF_TYPE_PROVIDER, lpf_provider_de_db_interface_init));
 
 #define GET_PRIVATE(o) \
@@ -377,7 +377,7 @@ hafas_binary_parse_each_trip (const gchar *data, gsize num, guint base, const ch
     for (i = 0; i < num; i++) {
         /* The trips itself */
         t = HAFAS_BIN6_TRIP(data, i);
-        day_off = hafas_bin6_parse_service_day(data, i);
+        day_off = lpf_provider_hafas_bin6_parse_service_day(data, i);
 
         LPF_DEBUG("Trip #%d, Changes:            %4d", i, t->changes);
 #ifdef ENABLE_DEBUG
@@ -390,12 +390,12 @@ hafas_binary_parse_each_trip (const gchar *data, gsize num, guint base, const ch
         for (j = 0; j < t->part_cnt; j++) {
             p = HAFAS_BIN6_TRIP_PART(data, i, j);
             start = g_object_new(LPF_TYPE_STOP, NULL);
-            if (hafas_bin6_parse_station(data, p->dep_off, LPF_LOC(start), enc) < 0) {
+            if (lpf_provider_hafas_bin6_parse_station(data, p->dep_off, LPF_LOC(start), enc) < 0) {
                 g_warning("Failed to parse start station %d/%d", i, j);
                 goto error;
             }
             end = g_object_new(LPF_TYPE_STOP, NULL);
-            if (hafas_bin6_parse_station(data, p->arr_off, LPF_LOC(end), enc) < 0) {
+            if (lpf_provider_hafas_bin6_parse_station(data, p->arr_off, LPF_LOC(end), enc) < 0) {
                 g_warning("Failed to parse end station %d/%d", i, j);
                 goto error;
             }
@@ -403,7 +403,7 @@ hafas_binary_parse_each_trip (const gchar *data, gsize num, guint base, const ch
 
             h = p->dep / 100;
             m = p->dep % 100;
-            dt = hafas_bin6_date_time (base, day_off, h, m);
+            dt = lpf_provider_hafas_bin6_date_time (base, day_off, h, m);
             g_object_set (start, "departure", dt, NULL);
 
             if (g_strcmp0 (HAFAS_BIN6_NO_PLATFORM, HAFAS_BIN6_STR(data, p->dep_pos_off))) {
@@ -414,7 +414,7 @@ hafas_binary_parse_each_trip (const gchar *data, gsize num, guint base, const ch
 
             h = p->arr / 100;
             m = p->arr % 100;
-            dt = hafas_bin6_date_time (base, day_off, h, m);
+            dt = lpf_provider_hafas_bin6_date_time (base, day_off, h, m);
             g_object_set (end, "arrival", dt, NULL);
 
             if (g_strcmp0 (HAFAS_BIN6_NO_PLATFORM, HAFAS_BIN6_STR(data, p->arr_pos_off))) {
@@ -429,14 +429,14 @@ hafas_binary_parse_each_trip (const gchar *data, gsize num, guint base, const ch
             if (pd->arr_pred != HAFAS_BIN6_NO_REALTIME) {
                 h = pd->arr_pred / 100;
                 m = pd->arr_pred % 100;
-                dt = hafas_bin6_date_time (base, day_off, h, m);
+                dt = lpf_provider_hafas_bin6_date_time (base, day_off, h, m);
                 g_object_set (start, "rt_arrival", dt, NULL);
             }
 
             if (pd->dep_pred != HAFAS_BIN6_NO_REALTIME) {
                 h = pd->dep_pred / 100;
                 m = pd->dep_pred % 100;
-                dt = hafas_bin6_date_time (base, day_off, h, m);
+                dt = lpf_provider_hafas_bin6_date_time (base, day_off, h, m);
                 g_object_set (end, "rt_departure", dt, NULL);
             }
 
@@ -448,18 +448,18 @@ hafas_binary_parse_each_trip (const gchar *data, gsize num, guint base, const ch
                 stop = HAFAS_BIN6_STOP(data, i, j, k);
 
                 astop = g_object_new (LPF_TYPE_STOP,
-                                      "arrival", hafas_bin6_date_time (base,
-                                                                       day_off,
-                                                                       stop->arr / 100,
-                                                                       stop->arr % 100),
-                                      "departure", hafas_bin6_date_time (base,
-                                                                         day_off,
-                                                                         stop->dep / 100,
-                                                                         stop->dep % 100),
+                                      "arrival", lpf_provider_hafas_bin6_date_time (base,
+                                                                                    day_off,
+                                                                                    stop->arr / 100,
+                                                                                    stop->arr % 100),
+                                      "departure", lpf_provider_hafas_bin6_date_time (base,
+                                                                                      day_off,
+                                                                                      stop->dep / 100,
+                                                                                      stop->dep % 100),
                                       NULL
                     );
 
-                if (hafas_bin6_parse_station(data, stop->stop_idx, LPF_LOC(astop), enc) < 0) {
+                if (lpf_provider_hafas_bin6_parse_station(data, stop->stop_idx, LPF_LOC(astop), enc) < 0) {
                     g_warning("Failed to parse stop %d/%d", i, j);
                     goto error;
                 }

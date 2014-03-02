@@ -21,7 +21,6 @@
  */
 
 #include "../de-db.c"
-#include "../hafas-bin6.c"
 
 /* Make sure we can parse the station xml list as returned by the current Deutsche Bahn Hafas */
 static void

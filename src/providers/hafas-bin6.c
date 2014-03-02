@@ -1,5 +1,5 @@
 /*
- * hafas-bin6.c: HAFAS Binary Format Version 6 provider
+ * lpf-provider-hafas-bin6.c: HAFAS Binary Format Version 6 provider
  *
  * Copyright (C) 2014 Guido Günther
  *
@@ -27,9 +27,67 @@
 #include "hafas-bin6.h"
 #include "lpf-loc.h"
 #include "lpf-priv.h"
+#include "lpf-provider.h"
+
+static void lpf_provider_hafas_bin6_interface_init (LpfProviderInterface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (LpfProviderHafasBin6, lpf_provider_hafas_bin6, G_TYPE_OBJECT,
+                         G_IMPLEMENT_INTERFACE (LPF_TYPE_PROVIDER, lpf_provider_hafas_bin6_interface_init));
+
+#define PROVIDER_NAME "hafas_bin6"
+
+enum {
+    PROP_0,
+    PROP_NAME,
+    LAST_PROP
+};
+
+#define GET_PRIVATE(o) \
+  (G_TYPE_INSTANCE_GET_PRIVATE ((o), LPF_TYPE_PROVIDER_HAFAS_BIN6, LpfProviderHafasBin6Private))
+
+
+typedef struct _LpfProviderHafasBin6Private LpfProviderHafasBin6Private;
+
+struct _LpfProviderHafasBin6Private {
+    gchar *name;
+};
+
+static void
+lpf_provider_hafas_bin6_set_property (GObject *object, guint prop_id,
+                                      const GValue *value, GParamSpec *pspec)
+{
+    LpfProviderHafasBin6Private *priv = GET_PRIVATE (object);
+
+    switch (prop_id) {
+    case PROP_NAME:
+        /* construct only */
+        priv->name = g_value_dup_string (value);
+        break;
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+        break;
+    }
+}
+
+
+static void
+lpf_provider_hafas_bin6_get_property (GObject *object, guint prop_id,
+                                      GValue *value, GParamSpec *pspec)
+{
+    LpfProviderHafasBin6Private *priv = GET_PRIVATE (object);
+
+    switch (prop_id) {
+    case PROP_NAME:
+        g_value_set_string (value, priv->name);
+        break;
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+        break;
+    }
+}
 
 gint
-hafas_bin6_parse_station(const gchar *data, guint16 off, LpfLoc *loc, const char *enc)
+lpf_provider_hafas_bin6_parse_station(const gchar *data, guint16 off, LpfLoc *loc, const char *enc)
 {
     gchar *name;
     HafasBin6Station *station;
@@ -60,12 +118,12 @@ err:
 
 
 /**
- * hafas_bin6_parse_service_day:
+ * lpf_provicer_hafas_bin6_parse_service_day:
  *
  * Parse a servide day entry and return the offset from the base date in days.
  */
 guint
-hafas_bin6_parse_service_day (const char *data, int idx)
+lpf_provider_hafas_bin6_parse_service_day (const char *data, int idx)
 {
     gint i;
     gchar bits;
@@ -94,7 +152,7 @@ hafas_bin6_parse_service_day (const char *data, int idx)
 }
 
 /**
- * hafas_bin6_date_time:
+ * lpf_provider_hafas_bin6_date_time:
  * @base_days: day off set from 1980-01-01
  * @off_days: day offset from base_days
  * @hours: hour trip starts/ends
@@ -105,7 +163,7 @@ hafas_bin6_parse_service_day (const char *data, int idx)
  * Returns: the travel date and time as #GDateTime
  */
 GDateTime*
-hafas_bin6_date_time(guint base_days, guint off_days, guint hours, guint min)
+lpf_provider_hafas_bin6_date_time(guint base_days, guint off_days, guint hours, guint min)
 {
     /* FIXME: should we always use Europe/Berlin as TZ? */
     GDateTime *dt, *base = g_date_time_new_local (1979, 12, 31, 0, 0, 0);
@@ -116,4 +174,56 @@ hafas_bin6_date_time(guint base_days, guint off_days, guint hours, guint min)
                           min * G_TIME_SPAN_MINUTE);
     g_date_time_unref (base);
     return dt;
+}
+
+static void
+lpf_provider_hafas_bin6_activate (LpfProvider *self, GObject *obj)
+{
+    g_warn_if_reached ();
+}
+
+static void
+lpf_provider_hafas_bin6_deactivate (LpfProvider *self, GObject *obj)
+{
+    g_warn_if_reached ();
+}
+
+
+static void
+lpf_provider_hafas_bin6_finalize (GObject *self)
+{
+    G_OBJECT_CLASS (lpf_provider_hafas_bin6_parent_class)->finalize (self);
+}
+
+static void
+lpf_provider_hafas_bin6_class_init (LpfProviderHafasBin6Class *klass)
+{
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+    g_type_class_add_private (klass, sizeof (LpfProviderHafasBin6Private));
+
+    object_class->get_property = lpf_provider_hafas_bin6_get_property;
+    object_class->set_property = lpf_provider_hafas_bin6_set_property;
+    object_class->finalize = lpf_provider_hafas_bin6_finalize;
+
+    g_object_class_override_property (object_class,
+                                      PROP_NAME,
+                                      "name");
+}
+
+static void
+lpf_provider_hafas_bin6_interface_init (LpfProviderInterface *iface)
+{
+    /* abstract base class */
+    iface->activate = lpf_provider_hafas_bin6_activate;
+    iface->deactivate = lpf_provider_hafas_bin6_deactivate;
+
+    /* To be implemented */
+    iface->get_locs = NULL; /* lpf_provider_hafas_bin6_get_locs; */
+    iface->get_trips = NULL; /* lpf_provider_hafas_bin6_get_trips; */
+}
+
+static void
+lpf_provider_hafas_bin6_init (LpfProviderHafasBin6 *self)
+{
 }

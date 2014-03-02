@@ -21,13 +21,17 @@ LDADD = \
 	$(GTHREAD2_LIBS) \
 	$(NULL)
 
-de_db_SOURCES = de-db.c
+de_db_SOURCES = \
+	de-db.c \
+	$(NULL)
+
 de_db_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(LIBSOUP_CFLAGS) \
 	$(LIBXML2_CFLAGS) \
 	$(NULL)
 de_db_LDADD = \
+	../libplanfahr-provider-de-db.la \
 	$(LDADD) \
 	$(LIBSOUP_LIBS) \
 	$(LIBXML2_LIBS) \
