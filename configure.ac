@@ -1,5 +1,5 @@
 AC_INIT(libplanfahr, 0.0.0)
-AC_CONFIG_SRCDIR(src/libplanfahr.c)
+AC_CONFIG_SRCDIR(src/libplanfahr.h)
 AC_CONFIG_AUX_DIR([build-aux])
 AM_CONFIG_HEADER(config.h)
 AC_CONFIG_MACRO_DIR([m4])

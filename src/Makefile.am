@@ -18,7 +18,6 @@ PLANFAHR_HEADER_FILES = \
 	$(NULL)
 
 PLANFAHR_SOURCE_FILES = \
-	libplanfahr.c \
 	lpf-manager.c \
 	lpf-provider.c \
 	lpf-loc.c \

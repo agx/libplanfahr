@@ -20,6 +20,14 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
+#ifndef _LIBPLANFAHR
+#define _LIBPLANFAHR
 
-#include <config.h>
+#include "lpf-loc.h"
+#include "lpf-manager.h"
+#include "lpf-provider.h"
+#include "lpf-stop.h"
+#include "lpf-trip.h"
+#include "lpf-trip-part.h"
 
+#endif /* _LIBPLANFAHR */
