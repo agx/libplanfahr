@@ -30,6 +30,7 @@ LIBPLANFAHR_PRIVATE_0.0.0 {
   global:
       lpf_loc_get_opaque;
       lpf_loc_set_opaque;
+      lpf_provider_de_bvg_get_type;
       lpf_provider_de_db_get_type;
   local:
 	*;
