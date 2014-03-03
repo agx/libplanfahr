@@ -1,7 +1,36 @@
 LIBPLANFAHR_0.0.0 {
   global:
-        lpf_*;
+      /* LpfManager */
+      lpf_manager_get_available_providers;
+      lpf_manager_activate_provider;
+      lpf_manager_deactivate_provider;
+      lpf_manager_error_quark;
+      lpf_manager_get_type;
+      /* LpfProvider */
+      lpf_provider_activate;
+      lpf_provider_deactivate;
+      lpf_provider_error_quark;
+      lpf_provider_get_locs;
+      lpf_provider_get_name;
+      lpf_provider_get_trips;
+      lpf_provider_get_type;
+      /* LpfLoc */
+      lpf_loc_get_type;
+      /* LpfStop */
+      lpf_stop_get_type;
+      /* LpfTrip */
+      lpf_trip_get_type;
+      /* LpfTripPart */
+      lpf_trip_part_get_type;
   local:
 	*;
 };
 
+LIBPLANFAHR_PRIVATE_0.0.0 {
+  global:
+      lpf_loc_get_opaque;
+      lpf_loc_set_opaque;
+      lpf_provider_de_db_get_type;
+  local:
+	*;
+};
