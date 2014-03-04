@@ -75,18 +75,7 @@ lpf_provider_get_name (LpfProvider *self)
 void
 lpf_provider_activate (LpfProvider *self, GObject *obj)
 {
-    gchar *cache_dir = NULL;
-    LpfProviderInterface *iface = LPF_PROVIDER_GET_INTERFACE (self);
-
-    g_return_if_fail (LPF_IS_PROVIDER (self));
-
-    cache_dir = g_strdup_printf("%s/%s/%s/", g_get_user_cache_dir (), PACKAGE_NAME, iface->get_name(self));
-    if (cache_dir)
-        g_mkdir_with_parents (cache_dir, 0700);
-
-    iface->activate (self, obj);
-
-    g_free (cache_dir);
+    LPF_PROVIDER_GET_INTERFACE (self)->activate (self, obj);
 }
 
 /* invoked by LpfManager to activate the provider */
