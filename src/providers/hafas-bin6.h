@@ -45,6 +45,9 @@ typedef struct {
 
 typedef struct {
     GObjectClass parent_class;
+
+    const char* (*locs_url)(LpfProviderHafasBin6 *self);
+    const char* (*trips_url)(LpfProviderHafasBin6 *self);
 } LpfProviderHafasBin6Class;
 
 GType lpf_provider_hafas_bin6_get_type (void);
@@ -52,6 +55,10 @@ GType lpf_provider_hafas_bin6_get_type (void);
 gint lpf_provider_hafas_bin6_parse_station(const gchar *data, guint16 off, LpfLoc *station, const char *enc);
 guint lpf_provider_hafas_bin6_parse_service_day (const char *data, int idx);
 GDateTime* lpf_provider_hafas_bin6_date_time(guint base_days, guint off_days, guint hours, guint min);
+
+/* Pure virtual methods */
+const gchar* lpf_provider_hafas_bin6_locs_url(LpfProviderHafasBin6 *self);
+const gchar* lpf_provider_hafas_bin6_trips_url(LpfProviderHafasBin6 *self);
 
 G_END_DECLS
 #endif /* _HAFAS_BIN6_H */

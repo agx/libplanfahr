@@ -1,5 +1,5 @@
 /*
- * hafas-bin6.c: test hafas binary v6 parser
+ * db.c: Deutsche Bahn provider for libplanfahr
  *
  * Copyright (C) 2014 Guido Günther
  *
@@ -20,126 +20,107 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include <glib.h>
+#include "../hafas-bin6.c"
 
-#include "../hafas-bin6.h"
-
-
-/* sanity check our parser's structures */
+/* Make sure we can parse the station xml list as returned by the current Deutsche Bahn Hafas */
 static void
-test_sizes (void)
+test_parse_locs (void)
 {
-    g_assert_cmpint(sizeof(HafasBin6Header), ==, 0x4a);
-    g_assert_cmpint(sizeof(HafasBin6Trip), ==, 0x0c);
-    g_assert_cmpint(sizeof(HafasBin6Loc), ==, 0x0e);
-    g_assert_cmpint(sizeof(HafasBin6ExtHeader), ==, 0x30);
-    g_assert_cmpint(sizeof(HafasBin6TripDetailsHeader), ==, 0x0e);
-    g_assert_cmpint(sizeof(HafasBin6Station), ==, 0x0e);
-    g_assert_cmpint(sizeof(HafasBin6ServiceDay), ==, 0x07);
-    g_assert_cmpint(sizeof(HafasBin6TripDetail), ==, 0x04);
-    g_assert_cmpint(sizeof(HafasBin6TripPart), ==, 0x14);
-    g_assert_cmpint(sizeof(HafasBin6TripPartDetail), ==, 0x10);
-    g_assert_cmpint(sizeof(HafasBin6TripStop), ==, 0x1a);
+    GSList *locs;
+    LpfLoc *loc;
+    char *name;
+    double lon, lat;
+
+    char *xml = g_strjoin(NULL,
+"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>",
+"<ResC xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"No path to XML scheme defined\" ver=\"1.1\" prod=\"String\" lang=\"EN\">",
+"  <MLcRes flag=\"FINAL\">",
+"    <MLc t=\"ST\" n=\"Erpel(Rhein)\" i=\"A=1@O=Erpel(Rhein)@X=7241593@Y=50582067@U=80@L=008001858@B=1@p=1386184594@\" x=\"7241593\" y=\"50582067\" />",
+"    <MLc t=\"ST\" n=\"Erpel B42\" i=\"A=1@O=Erpel B42@X=7231174@Y=50583649@U=81@L=000441204@B=1@p=1387219918@\" x=\"7231174\" y=\"50583649\" />",
+"    <MLc t=\"ST\" n=\"Bahnhofstr., Erpel\" i=\"A=1@O=Bahnhofstr., Erpel@X=7243175@Y=50580943@U=81@L=000448602@B=1@p=1387219918@\" x=\"7243175\" y=\"50580943\" />",
+"    <MLc t=\"ST\" n=\"Rheinfähre, Erpel\" i=\"A=1@O=Rheinfähre, Erpel@X=7238401@Y=50581663@U=81@L=000441205@B=1@p=1387219918@\" x=\"7238401\" y=\"50581663\" />",
+"    <MLc t=\"ST\" n=\"Orsberg Ort, Erpel\" i=\"A=1@O=Orsberg Ort, Erpel@X=7243399@Y=50593061@U=81@L=000454657@B=1@p=1387219918@\" x=\"7243399\" y=\"50593061\" />",
+"    <MLc t=\"ST\" n=\"Neutor, Erpel\" i=\"A=1@O=Neutor, Erpel@X=7235282@Y=50584108@U=81@L=000454652@B=1@p=1387219918@\" x=\"7235282\" y=\"50584108\" />",
+"    <MLc t=\"ST\" n=\"Erpeldange Am Schlass, Luxemburg\" i=\"A=1@O=Erpeldange Am Schlass, Luxemburg@X=6114741@Y=49852458@U=81@L=000864180@B=1@p=1387219918@\" x=\"6114741\" y=\"49852458\" />",
+"  </MLcRes>",
+"</ResC>", NULL);
+
+    locs = parse_locs_xml(xml);
+    g_assert_nonnull (locs);
+    g_assert_cmpint (g_slist_length (locs), ==, 7);
+
+    loc = g_slist_nth (locs, 4)->data;
+    g_object_get (loc, "name", &name, "long", &lon, "lat", &lat, NULL);
+
+    g_assert_cmpstr (name, ==, "Orsberg Ort, Erpel");
+    g_assert_cmpint (lon, ==, 7);
+    g_assert_cmpint (lat, ==, 50);
+
+    g_slist_free_full (locs, g_object_unref);
+    g_free (xml);
+    g_free (name);
 }
 
-/*
- * Make sure we can parse the binary data trip information This is
- * just to test the raw parser. The wrapping into Lpf objects and
- * conversions of e.g. time and date are tested separately.
- */
+/* Make sure we can parse the binary data trip information */
 static void
-test_parse_erpel_unkel(void)
+test_parse_trips (void)
 {
-    gchar *bin;
+    GSList *trips;
+    gchar *binary;
     gsize  length;
-    HafasBin6Loc *start, *end;
-    HafasBin6ExtHeader *ext;
-    HafasBin6TripDetailsHeader *detail_header;
-    HafasBin6TripPartDetail *part_detail;
-    HafasBin6TripDetail *detail;
-    HafasBin6Trip *trip;
-    HafasBin6TripPart *part;
-    HafasBin6ServiceDay *day;
-    HafasBin6TripStop *stop;
-    HafasBin6Station *station;
-    gint i, j, k;
-    guint expected_changes[3] = { 0, 0, 0 };
-    guint expected_parts[3] = { 1, 2, 1 };
-    const gchar *expected_part_line[3][2] = { {"RB 12560", "doesnot" },
-                                              {"Fussweg", "Bus  565" },
-                                              {"RB 12562", "matter" }};
-    const gint expected_part_dep[3][2] = { { 956,    0},
-                                           { 958, 1003 },
-                                           {1056,    0 }};
+    int i;
+    GSList *parts;
+    LpfTrip *trip;
+    LpfTripPart *part;
+    LpfLoc *stop;
+    gchar *name;
+    GDateTime *dep, *arr;
 
-    const gint expected_part_arr[3][2] = { { 959, 2},
-                                           {1003, 1014},
-                                           {1059,    0 }};
-    guint expected_stops[3][2] = { {0, 0}, {0, 8}, {0, 0} };
+    g_assert_true(g_file_get_contents(LPF_TEST_SRCDIR "/hafas-bin-6-station-query-1.bin", &binary, &length, NULL));
 
-    g_assert_true(g_file_get_contents(LPF_TEST_SRCDIR "/hafas-bin-6-station-query-1.bin", &bin, &length, NULL));
+    trips = hafas_binary_parse_trips (binary, length);
 
-    g_assert_cmpint(HAFAS_BIN6_HEADER(bin)->num_trips, ==, 3);
+    g_assert (g_slist_length (trips) == 3);
 
-    /* header information */
-    start = HAFAS_BIN6_START(bin);
-    end = HAFAS_BIN6_END(bin);
-    g_assert_cmpint (start->lon, ==, 7241593);
-    g_assert_cmpint (start->lat, ==, 50582067);
-    g_assert_cmpint (start->type, ==, HAFAS_BIN6_LOC_TYPE_STATION);
-    g_assert_cmpint (end->lon, ==, 7219803);
-    g_assert_cmpint (end->lat, ==, 50602742);
-    g_assert_cmpint (end->type, ==, HAFAS_BIN6_LOC_TYPE_STATION);
+    for (i = 0; i < g_slist_length (trips); i++) {
+        trip = LPF_TRIP(g_slist_nth_data (trips, i));
+        g_object_get (G_OBJECT(trip), "parts", &parts, NULL);
 
-    /* ext header information */
-    ext = HAFAS_BIN6_EXT_HEADER(bin);
-    g_assert_cmpint (ext->err, ==, HAFAS_BIN6_ERROR_NONE);
-    g_assert_cmpstr (HAFAS_BIN6_STR(bin, ext->enc_off), ==,  "iso-8859-1");
-    g_assert_cmpstr (HAFAS_BIN6_STR(bin, ext->req_id_off), ==,  "50.02519042.1387923122");
-    g_assert_cmpint (ext->seq, ==,  1);
+        part = LPF_TRIP_PART(g_slist_nth_data (parts, 0));
+        g_object_get (G_OBJECT(part), "start", &stop, NULL);
+        g_object_get (G_OBJECT(stop),
+                      "name", &name,
+                      "arrival", &arr,
+                      "departure", &dep,
+                      NULL);
+        /* All trips start in Erpel */
+        g_assert (!g_strcmp0 (name, "Erpel(Rhein)"));
+        g_free (name);
 
-    /* detail header information */
-    detail_header = HAFAS_BIN6_TRIP_DETAILS_HEADER(bin);
-    g_assert_cmpint (detail_header->version, ==, 1);
-    g_assert_cmpint (detail_header->stop_size, ==, sizeof(HafasBin6TripStop));
-    g_assert_cmpint (detail_header->part_detail_size, == ,sizeof(HafasBin6TripPartDetail));
+        g_assert (dep != NULL);
+        g_assert (arr == NULL);
+        g_date_time_unref (dep);
 
-    for (i = 0; i < HAFAS_BIN6_HEADER(bin)->num_trips; i++) {
-        trip = HAFAS_BIN6_TRIP(bin, i);
-        g_assert_cmpint (trip->changes, ==, expected_changes[i]);
-        g_assert_cmpint (trip->part_cnt, ==, expected_parts[i]);
+        /* All trips end in Unkel */
+        part = LPF_TRIP_PART(g_slist_nth_data (parts,
+                                               g_slist_length(parts)-1));
+        g_object_get (G_OBJECT(part), "end", &stop, NULL);
+        g_object_get (G_OBJECT(stop),
+                      "name", &name,
+                      "arrival", &arr,
+                      "departure", &dep,
+                      NULL);
 
-        day = HAFAS_BIN6_SERVICE_DAY(bin, i);
-        g_assert_cmpint (day->byte_base, ==, 0);
-        g_assert_cmpint (day->byte_len, ==, 2);
-        g_assert_cmpint (day->byte0, ==, (gchar)(0x80));
+        g_assert (dep == NULL);
+        g_assert (arr != NULL);
+        g_date_time_unref (arr);
 
-        detail = HAFAS_BIN6_TRIP_DETAIL(bin, i);
-        g_assert_cmpint (detail->rt_status, ==, HAFAS_BIN6_RTSTATUS_NORMAL);
-        g_assert_cmpint (detail->delay, ==, 0);
-
-        for (j = 0; j < trip->part_cnt; j++) {
-            /* planned departures and arrivals */
-            part = HAFAS_BIN6_TRIP_PART(bin, i, j);
-            g_assert_cmpstr (HAFAS_BIN6_STR(bin, part->line_off), ==, expected_part_line[i][j]);
-            g_assert_cmpint (part->arr, ==, expected_part_arr[i][j]);
-            g_assert_cmpint (part->dep, ==, expected_part_dep[i][j]);
-            /* predicted departures and arrivals */
-            part_detail = HAFAS_BIN6_TRIP_PART_DETAIL(bin, i, j);
-            g_assert_cmpint (part_detail->arr_pred, ==, 65535);
-            g_assert_cmpint (part_detail->dep_pred, ==, 65535);
-            /* stops */
-            g_assert_cmpint (part_detail->stops_cnt, ==, expected_stops[i][j]);
-            for (k = 0; k < part_detail->stops_cnt; k++) {
-                stop = HAFAS_BIN6_STOP(bin, i, j, k);
-                g_assert_cmpstr (HAFAS_BIN6_STR(bin, stop->dep_pos_pred_off), ==, "---");
-            }
-            /* check a single station more thoroughly */
-            stop = HAFAS_BIN6_STOP(bin, 1, 1, 2);
-            station = HAFAS_BIN6_STATION(bin, stop->stop_idx);
-            g_assert_cmpstr (HAFAS_BIN6_STR(bin, station->name_off), ==, "Heister Kapelle, Unkel");
-        }
+        g_assert (g_strrstr (name, "Unkel") != NULL);
+        g_free (name);
     }
+
+    g_slist_free (trips);
+
 }
 
 
@@ -148,8 +129,8 @@ int main(int argc, char **argv)
     gboolean ret;
     g_test_init (&argc, &argv, NULL);
 
-    g_test_add_func ("/providers/hafas-bin6/sizes", test_sizes);
-    g_test_add_func ("/providers/hafas_bin6/parse_erpel_unkel", test_parse_erpel_unkel);
+    g_test_add_func ("/providers/de-db/parse_stations", test_parse_locs);
+    g_test_add_func ("/providers/de-db/parse_trips", test_parse_trips);
 
     ret = g_test_run ();
     return ret;

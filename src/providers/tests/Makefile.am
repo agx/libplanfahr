@@ -1,6 +1,6 @@
 include $(top_srcdir)/flymake.mk
 
-check_PROGRAMS = de-db hafas-bin6
+check_PROGRAMS = hafas-bin6 hafas-bin6-format
 
 AM_CFLAGS = \
 	$(GLIB2_CFLAGS) \
@@ -21,30 +21,30 @@ LDADD = \
 	$(GTHREAD2_LIBS) \
 	$(NULL)
 
-de_db_SOURCES = \
-	de-db.c \
+hafas_bin6_SOURCES = \
+	hafas-bin6.c \
 	$(NULL)
 
-de_db_CFLAGS = \
+hafas_bin6_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(LIBSOUP_CFLAGS) \
 	$(LIBXML2_CFLAGS) \
 	$(NULL)
-de_db_LDADD = \
+hafas_bin6_LDADD = \
 	../libplanfahr-provider-de-db.la \
 	$(LDADD) \
 	$(LIBSOUP_LIBS) \
 	$(LIBXML2_LIBS) \
 	$(NULL)
 
-hafas_bin6_SOURCES = \
-        hafas-bin6.c           \
+hafas_bin6_format_SOURCES = \
+        hafas-bin6-format.c    \
 	../hafas-bin6-format.h \
 	$(NULL)
-hafas_bin6_CFLAGS = \
+hafas_bin6_format_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(NULL)
-hafas_bin6_LDADD = \
+hafas_bin6_format_LDADD = \
 	$(LDADD) \
 	$(NULL)
 

@@ -24,15 +24,15 @@
 G_BEGIN_DECLS
 #define LPF_TYPE_PROVIDER_DE_DB lpf_provider_de_db_get_type()
 #define LPF_PROVIDER_DE_DB(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), LPF_TYPE_PROVIDER_DE_DB, LpfProviderDe_Db))
+  (G_TYPE_CHECK_INSTANCE_CAST ((obj), LPF_TYPE_PROVIDER_DE_DB, LpfProviderDeDb))
 #define LPF_PROVIDER_DE_DB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), LPF_TYPE_PROVIDER_DE_DB, LpfProviderDe_DbClass))
+  (G_TYPE_CHECK_CLASS_CAST ((klass), LPF_TYPE_PROVIDER_DE_DB, LpfProviderDeDbClass))
 #define LPF_IS_PROVIDER_DE_DB(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), LPF_TYPE_PROVIDER_DE_DB))
 #define LPF_IS_PROVIDER_DE_DB_CLASS(klass) \
   (G_TYPE_CHECK_CLASS_TYPE ((klass), LPF_TYPE_PROVIDER_DE_DB))
 #define LPF_PROVIDER_DE_DB_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), LPF_TYPE_PROVIDER_DE_DB, LpfProviderDe_DbClass))
+  (G_TYPE_INSTANCE_GET_CLASS ((obj), LPF_TYPE_PROVIDER_DE_DB, LpfProviderDeDbClass))
 
 typedef struct {
     LpfProviderHafasBin6 parent;
