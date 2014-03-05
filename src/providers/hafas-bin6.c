@@ -63,7 +63,6 @@ typedef struct _LpfProviderGotItUserData {
 typedef struct _LpfProviderHafasBin6Private LpfProviderHafasBin6Private;
 
 struct _LpfProviderHafasBin6Private {
-    gchar *name;
     SoupSession *session;
     char *logdir;
     gboolean debug;
@@ -721,12 +720,9 @@ static void
 lpf_provider_hafas_bin6_set_property (GObject *object, guint prop_id,
                                       const GValue *value, GParamSpec *pspec)
 {
-    LpfProviderHafasBin6Private *priv = GET_PRIVATE (object);
-
     switch (prop_id) {
     case PROP_NAME:
-        /* construct only */
-        priv->name = g_value_dup_string (value);
+	g_warn_if_reached ();
         break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -739,11 +735,9 @@ static void
 lpf_provider_hafas_bin6_get_property (GObject *object, guint prop_id,
                                       GValue *value, GParamSpec *pspec)
 {
-    LpfProviderHafasBin6Private *priv = GET_PRIVATE (object);
-
     switch (prop_id) {
     case PROP_NAME:
-        g_value_set_string (value, priv->name);
+        g_value_set_string (value, PROVIDER_NAME);
         break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -879,16 +873,6 @@ lpf_provider_hafas_bin6_deactivate (LpfProvider *self, GObject *obj)
 
 
 static void
-lpf_provider_hafas_bin6_finalize (GObject *self)
-{
-    LpfProviderHafasBin6Private *priv = GET_PRIVATE(self);
-    g_free (priv->name);
-
-    G_OBJECT_CLASS (lpf_provider_hafas_bin6_parent_class)->finalize (self);
-}
-
-
-static void
 lpf_provider_hafas_bin6_class_init (LpfProviderHafasBin6Class *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -897,7 +881,6 @@ lpf_provider_hafas_bin6_class_init (LpfProviderHafasBin6Class *klass)
 
     object_class->get_property = lpf_provider_hafas_bin6_get_property;
     object_class->set_property = lpf_provider_hafas_bin6_set_property;
-    object_class->finalize = lpf_provider_hafas_bin6_finalize;
 
     klass->locs_url = lpf_provider_hafas_bin6_locs_url;
     klass->trips_url = lpf_provider_hafas_bin6_trips_url;

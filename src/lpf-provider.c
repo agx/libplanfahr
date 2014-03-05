@@ -165,7 +165,7 @@ lpf_provider_default_init (LpfProviderInterface *iface)
                                      "Name",
                                      "Provider Name",
                                      NULL,
-                                     G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+                                     G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 }
 
 

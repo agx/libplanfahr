@@ -44,24 +44,14 @@ static void lpf_provider_de_db_interface_init (LpfProviderInterface *iface);
 G_DEFINE_TYPE_WITH_CODE (LpfProviderDeDb, lpf_provider_de_db, LPF_TYPE_PROVIDER_HAFAS_BIN6,
                          G_IMPLEMENT_INTERFACE (LPF_TYPE_PROVIDER, lpf_provider_de_db_interface_init));
 
-#define GET_PRIVATE(o) \
-  (G_TYPE_INSTANCE_GET_PRIVATE ((o), LPF_TYPE_PROVIDER_DE_DB, LpfProviderDeDbPrivate))
-
 int lpf_provider_major_version = LPF_PROVIDER_MAJOR_VERSION;
 int lpf_provider_minor_version = LPF_PROVIDER_MINOR_VERSION;
-
-typedef struct _LpfProviderDeDbPrivate LpfProviderDeDbPrivate;
-struct _LpfProviderDeDbPrivate {
-    gchar *name;
-};
 
 
 static const char*
 lpf_provider_de_db_get_name (LpfProvider *self)
 {
-    LpfProviderDeDbPrivate *priv = GET_PRIVATE (self);
-
-    return priv->name;
+    return PROVIDER_NAME;
 }
 
 
@@ -90,12 +80,9 @@ static void
 set_property (GObject *object, guint prop_id,
               const GValue *value, GParamSpec *pspec)
 {
-    LpfProviderDeDbPrivate *priv = GET_PRIVATE (object);
-
     switch (prop_id) {
     case PROP_NAME:
-        /* construct only */
-        priv->name = g_value_dup_string (value);
+        g_warn_if_reached ();
         break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -108,11 +95,9 @@ static void
 get_property (GObject *object, guint prop_id,
               GValue *value, GParamSpec *pspec)
 {
-    LpfProviderDeDbPrivate *priv = GET_PRIVATE (object);
-
     switch (prop_id) {
     case PROP_NAME:
-        g_value_set_string (value, priv->name);
+        g_value_set_string (value, PROVIDER_NAME);
         break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -122,26 +107,13 @@ get_property (GObject *object, guint prop_id,
 
 
 static void
-lpf_provider_de_db_finalize (GObject *self)
-{
-    LpfProviderDeDbPrivate *priv = GET_PRIVATE(self);
-
-    g_free (priv->name);
-    G_OBJECT_CLASS (lpf_provider_de_db_parent_class)->finalize (self);
-}
-
-
-static void
 lpf_provider_de_db_class_init (LpfProviderDeDbClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
     LpfProviderHafasBin6Class *hafas_class = LPF_PROVIDER_HAFAS_BIN6_CLASS (klass);
 
-    g_type_class_add_private (klass, sizeof (LpfProviderDeDbPrivate));
-
     object_class->get_property = get_property;
     object_class->set_property = set_property;
-    object_class->finalize = lpf_provider_de_db_finalize;
 
     /* LpfProvider */
     g_object_class_override_property (object_class,
@@ -167,6 +139,5 @@ lpf_provider_de_db_init (LpfProviderDeDb *self)
 LpfProviderDeDb *
 lpf_provider_de_db_new (void)
 {
-    return g_object_new (LPF_TYPE_PROVIDER_DE_DB, LPF_PROVIDER_PROP_NAME,
-                         PROVIDER_NAME, NULL);
+    return g_object_new (LPF_TYPE_PROVIDER_DE_DB, NULL);
 }
