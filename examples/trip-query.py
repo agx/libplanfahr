@@ -4,6 +4,7 @@
 # given on the command line
 
 import sys
+import optparse
 
 from gi.repository import Lpf
 from gi.repository import GObject
@@ -67,25 +68,30 @@ def trips_cb(trips, userdata, err):
             print("       Line:      %s" % part.props.line)
             print("       Delay:     %s" % end.props.arrival_delay)
             if part.props.stops and len(part.props.stops) > 0:
-                print "       %s Stops:   %s" % (len(part.props.stops),
-                                                 ", ".join([s.props.name for s in part.props.stops]))
+                print("       %s Stops:   %s" % (len(part.props.stops),
+                                                 ", ".join([s.props.name for s in part.props.stops])))
             else:
-                print "       Stops:     0"
+                print("       Stops:     0")
         print("")
     quit()
 
-def main(args):
+def main(argv):
     global mainloop, provider
+
+    parser = optparse.OptionParser()
+    parser.add_option("--provider", "-p", dest="provider",
+                      help="Provider to use", default="de-db")
+    options, args = parser.parse_args(argv)
 
     if len(args) == 3:
         start = args[1]
         end = args[2]
     else:
-        print("Usage: %s <from> <to>" % args[0])
+        print("Usage: %s <from> <to>" % argv[0])
         return 1
 
     manager = Lpf.Manager()
-    provider = manager.activate_provider("de-db")
+    provider = manager.activate_provider(options.provider)
     print("Loaded provider %s" % provider.props.name)
 
     provider.get_locs(start, locs_cb, end)
