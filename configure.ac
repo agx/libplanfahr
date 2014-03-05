@@ -46,31 +46,7 @@ PKG_CHECK_MODULES(GIO2, gio-2.0 >= $GLIB2_REQUIRED)
 PKG_CHECK_MODULES(LIBXML2, libxml-2.0 >= $LIBXML2_REQUIRED)
 PKG_CHECK_MODULES(LIBSOUP, libsoup-2.4 >= $LIBSOUP_REQUIRED)
 
-AC_ARG_ENABLE([introspection],
-        AS_HELP_STRING([--enable-introspection], [enable GObject introspection]),
-        [], [enable_introspection=check])
-
-if test "x$enable_introspection" != "xno" ; then
-        PKG_CHECK_MODULES([GOBJECT_INTROSPECTION],
-                          [gobject-introspection-1.0 >= $GOBJECT_INTROSPECTION_REQUIRED],
-                          [enable_introspection=yes],
-                          [
-                             if test "x$enable_introspection" = "xcheck"; then
-                               enable_introspection=no
-                             else
-                               AC_MSG_ERROR([gobject-introspection is not available])
-                             fi
-                          ])
-        if test "x$enable_introspection" = "xyes" ; then
-          AC_DEFINE([WITH_GOBJECT_INTROSPECTION], [1], [enable GObject introspection support])
-          AC_SUBST(GOBJECT_INTROSPECTION_CFLAGS)
-          AC_SUBST(GOBJECT_INTROSPECTION_LIBS)
-          AC_SUBST([G_IR_SCANNER], [$($PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0)])
-          AC_SUBST([G_IR_COMPILER], [$($PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0)])
-        fi
-fi
-AM_CONDITIONAL([WITH_GOBJECT_INTROSPECTION], [test "x$enable_introspection" = "xyes"])
-
+GOBJECT_INTROSPECTION_CHECK($GOBJECT_INTROSPECTION_REQUIRED)
 
 GTK_DOC_CHECK([1.10])
 
@@ -101,3 +77,14 @@ AC_CONFIG_FILES(Makefile
 )
 AC_OUTPUT
 
+echo "
+    LibPlanFahr $VERSION
+    ==============================================
+
+    compiler:                ${CC}
+    cflags:                  ${CFLAGS}
+    Debug:                   ${enable_debug}
+
+    GObject Introspection:   ${found_introspection}
+    Documentation:           ${enable_gtk_doc}
+"

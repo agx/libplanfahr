@@ -48,7 +48,7 @@ libplanfahr_0_0_la_CFLAGS = \
 libplanfahr_0_0_la_LIBADD = \
 	$(GIO2_LIBS) \
 	$(GOBJECT2_LIBS) \
-	$(GTHREAD2_LIBS) 
+	$(GTHREAD2_LIBS) \
 	$(NULL)
 
 libplanfahr_0_0_la_DEPENDENCIES = \
@@ -59,41 +59,39 @@ libplanfahr_0_0_la_LDFLAGS = \
 	-Wl,--version-script=$(srcdir)/libplanfahr.sym \
 	-version-info $(LIBPLANFAHR_VERSION_INFO)
 
-if WITH_GOBJECT_INTROSPECTION
+if HAVE_INTROSPECTION
 
-Lpf-0.0.gir: libplanfahr-0.0.la $(G_IR_SCANNER) Makefile.am
-	$(AM_V_GEN)$(G_IR_SCANNER) \
-                --quiet \
-                --warn-all \
-                --namespace Lpf \
-                --nsversion 0.0 \
-                --include GObject-2.0 \
-                --include Gio-2.0 \
-                --symbol-prefix=lpf \
-                --library=$(builddir)/libplanfahr-0.0.la \
-                --output $@ \
-                -I$(top_builddir) \
-                -I$(top_srcdir) \
-                --verbose \
-                --c-include="libplanfahr/libplanfahr.h" \
-                --pkg=gthread-2.0 \
-                --pkg-export=libplanfahr-0.0 \
-                $(srcdir)/libplanfahr.h \
-                $(PLANFAHR_SOURCE_FILES:%=$(srcdir)/%) \
-                $(PLANFAHR_HEADER_FILES:%=$(srcdir)/%)
+INTROSPECTION_GIRS = Lpf-0.0.gir
+INTROSPECTION_SCANNER_ARGS = --warn-all
+INTROSPECTION_COMPILER_ARGS =
+
+Lpf-0.0.gir: libplanfahr-0.0.la
+Lpf_0_0_gir_INCLUDES = GObject-2.0 Gio-2.0
+Lpf_0_0_gir_CFLAGS = $(libplanfahr_0_0_la_CFLAGS)
+Lpf_0_0_gir_LIBS = $(builddir)/libplanfahr-0.0.la
+Lpf_0_0_gir_EXPORT_PACKAGES = libplanfahr-0.0
+Lpf_0_0_gir_SCANNERFLAGS = \
+	--c-include="libplanfahr/libplanfahr.h" \
+	--namespace=Lpf \
+	--symbol-prefix=lpf \
+	--pkg=gthread-2.0 \
+	-I$(top_builddir) \
+	-I$(top_srcdir) \
+	$(NULL)
+Lpf_0_0_gir_FILES = \
+	$(srcdir)/libplanfahr.h \
+	$(PLANFAHR_SOURCE_FILES:%=$(srcdir)/%) \
+	$(PLANFAHR_HEADER_FILES:%=$(srcdir)/%) \
+	$(NULL)
 
 girdir = $(datadir)/gir-1.0
-gir_DATA = Lpf-0.0.gir
+nodist_gir_DATA = $(INTROSPECTION_GIRS)
 
-typelibsdir = $(libdir)/girepository-1.0
-typelibs_DATA = Lpf-0.0.typelib
-
-%.typelib: %.gir
-	$(AM_V_GEN)$(G_IR_COMPILER) \
-                --includedir=$(builddir) \
-                --includedir=$(girdir) \
-                -o $@ $<
+typelibdir = $(libdir)/girepository-1.0
+nodist_typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 
 CLEANFILES = $(gir_DATA) $(typelibs_DATA)
 
-endif # WITH_GOBJECT_INTROSPECTION
+endif # HAVE_INTROSPECTION
+
+-include $(INTROSPECTION_MAKEFILE)
