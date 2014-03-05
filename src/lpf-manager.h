@@ -23,6 +23,10 @@
 #ifndef _LPF_MANAGER_H
 #define _LPF_MANAGER_H
 
+#if !defined (__LIBPLANFAHR_H_INSIDE__) && !defined (LIBPLANFAHR_COMPILATION)
+# error "Only <libplanfahr.h> can be included directly."
+#endif
+
 #include <glib-object.h>
 #include "lpf-provider.h"
 

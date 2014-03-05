@@ -23,6 +23,10 @@
 #ifndef _LPF_LOC_H
 #define _LPF_LOC_H
 
+#if !defined (__LIBPLANFAHR_H_INSIDE__) && !defined (LIBPLANFAHR_COMPILATION)
+# error "Only <libplanfahr.h> can be included directly."
+#endif
+
 #include <glib-object.h>
 
 G_BEGIN_DECLS

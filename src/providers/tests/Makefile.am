@@ -2,7 +2,9 @@ include $(top_srcdir)/flymake.mk
 
 check_PROGRAMS = hafas-bin6 hafas-bin6-format
 
-AM_CFLAGS = \
+AM_CPPFLAGS = \
+	-DLIBPLANFAHR_COMPILATION \
+	-DLPF_TEST_SRCDIR=\""$(abs_srcdir)"\" \
 	$(GLIB2_CFLAGS) \
 	$(GIO2_CFLAGS) \
 	$(GOBJECT2_CFLAGS) \
@@ -10,7 +12,6 @@ AM_CFLAGS = \
 	$(LIBXML2_CFLAGS) \
 	$(WARN_CFLAGS) \
 	-I$(top_srcdir)/src \
-	-DLPF_TEST_SRCDIR=\""$(abs_srcdir)"\" \
 	$(NULL)
 
 LDADD = \
@@ -26,7 +27,7 @@ hafas_bin6_SOURCES = \
 	$(NULL)
 
 hafas_bin6_CFLAGS = \
-	$(AM_CFLAGS) \
+	$(AM_CPPFLAGS) \
 	$(LIBSOUP_CFLAGS) \
 	$(LIBXML2_CFLAGS) \
 	$(NULL)
@@ -42,7 +43,7 @@ hafas_bin6_format_SOURCES = \
 	../hafas-bin6-format.h \
 	$(NULL)
 hafas_bin6_format_CFLAGS = \
-	$(AM_CFLAGS) \
+	$(AM_CPPFLAGS) \
 	$(NULL)
 hafas_bin6_format_LDADD = \
 	$(LDADD) \

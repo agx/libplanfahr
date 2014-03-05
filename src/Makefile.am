@@ -37,7 +37,8 @@ libplanfahr_0_0_la_SOURCES = \
 
 libplanfahr_0_0_la_CFLAGS = \
 	-DG_LOG_DOMAIN="\"LibPlanFahr\"" \
-        -DLPF_PROVIDERS_DIR="\"$(LPF_PROVIDERS_DIR)\"" \
+	-DLIBPLANFAHR_COMPILATION \
+	-DLPF_PROVIDERS_DIR="\"$(LPF_PROVIDERS_DIR)\"" \
 	-I$(top_srcdir) \
 	$(GIO2_CFLAGS) \
 	$(GOBJECT2_CFLAGS) \

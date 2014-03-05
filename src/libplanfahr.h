@@ -23,11 +23,15 @@
 #ifndef _LIBPLANFAHR
 #define _LIBPLANFAHR
 
+#define __LIBPLANFAHR_H_INSIDE__
+
 #include "lpf-loc.h"
 #include "lpf-manager.h"
 #include "lpf-provider.h"
 #include "lpf-stop.h"
 #include "lpf-trip.h"
 #include "lpf-trip-part.h"
+
+#undef __LIBPLANFAHR_H_INSIDE__
 
 #endif /* _LIBPLANFAHR */

@@ -23,6 +23,10 @@
 #ifndef _LPF_PRIV_H
 #define _LPF_PRIV_H
 
+#if !defined (LIBPLANFAHR_COMPILATION)
+# error "Only <libplanfahr.h> can be included directly."
+#endif
+
 #include <config.h>
 
 #ifdef ENABLE_DEBUG

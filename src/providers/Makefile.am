@@ -4,6 +4,12 @@ SUBDIRS = tests
 
 pkglibdir = $(LPF_PROVIDERS_DIR)
 
+AM_CPPFLAGS = \
+	-DG_LOG_DOMAIN="\"LibPlanFahr\"" \
+	-DLIBPLANFAHR_COMPILATION \
+	-DLPF_PROVIDERS_DIR="\"$(LPF_PROVIDERS_DIR)\"" \
+	$(NULL)
+
 pkglib_LTLIBRARIES = \
 	libplanfahr-provider-ch-sbb.la \
 	libplanfahr-provider-de-db.la \
@@ -18,6 +24,7 @@ libplanfahr_provider_ch_sbb_la_SOURCES = \
 	$(NULL)
 
 libplanfahr_provider_ch_sbb_la_CFLAGS = \
+	$(AM_CPPFLAGS) \
 	$(GIO2_CFLAGS) \
 	$(GOBJECT2_CFLAGS) \
 	$(GTHREAD2_CFLAGS) \
@@ -41,6 +48,7 @@ libplanfahr_provider_de_db_la_SOURCES = \
 	$(NULL)
 
 libplanfahr_provider_de_db_la_CFLAGS = \
+	$(AM_CPPFLAGS) \
 	$(GIO2_CFLAGS) \
 	$(GOBJECT2_CFLAGS) \
 	$(GTHREAD2_CFLAGS) \
@@ -64,6 +72,7 @@ libplanfahr_provider_de_bvg_la_SOURCES = \
 	$(NULL)
 
 libplanfahr_provider_de_bvg_la_CFLAGS = \
+	$(AM_CPPFLAGS) \
 	$(GIO2_CFLAGS) \
 	$(GOBJECT2_CFLAGS) \
 	$(GTHREAD2_CFLAGS) \
