@@ -1,7 +1,23 @@
 #!/usr/bin/python
+# vim: set fileencoding=utf-8 :
 #
-# Querry current trips between the two locations
-# given on the command line
+# Query trips between the two locations given on the command line
+#
+# Copyright (C) 2014 Guido Günther
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 import sys
 import optparse
@@ -31,13 +47,14 @@ def locs_cb(locs, userdata, err):
 
     if not start:
         start = locs[0]
+        end, when = userdata
         print("Start: %s" % start.props.name)
-        provider.get_locs(userdata, locs_cb, None)
+        provider.get_locs(end, locs_cb, when)
     else:
         end = locs[0]
         print("End: %s" % end.props.name)
-        now = GLib.DateTime.new_now_local()
-        provider.get_trips(start, end, now, 0, trips_cb, None)
+        dt = GLib.DateTime.new_local(*userdata) if userdata else GLib.DateTime.new_now_local()
+        provider.get_trips(start, end, dt, 0, trips_cb, None)
 
 def format_full(trips):
     i = 0
@@ -98,6 +115,15 @@ def trips_cb(trips, userdata, err):
         format_terse(trips)
     quit()
 
+def parse_datetime(when):
+    if not when:
+        return None
+
+    date, time = when.split('T')
+    y, m, d = date.split('-')
+    H, M = time.split(':')
+    return tuple(map(int, [y, m, d, H, M, '00']))
+
 def main(argv):
     global mainloop, provider, options
 
@@ -106,6 +132,8 @@ def main(argv):
                       help="Provider to use", default="de-db")
     parser.add_option("--format", dest="format",
                       help="Format to use (terse or full)", default="terse")
+    parser.add_option("--when", dest="when",
+                      help="When to start the trip", default=None)
     options, args = parser.parse_args(argv)
 
     if len(args) == 3:
@@ -119,7 +147,8 @@ def main(argv):
     provider = manager.activate_provider(options.provider)
     print("Loaded provider %s" % provider.props.name)
 
-    provider.get_locs(start, locs_cb, end)
+    when = parse_datetime(options.when)
+    provider.get_locs(start, locs_cb, (end, when))
 
     mainloop = GObject.MainLoop()
     GObject.timeout_add_seconds(20, quit, "timed out")
