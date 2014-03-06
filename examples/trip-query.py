@@ -14,6 +14,7 @@ mainloop = None
 start = None
 end = None
 provider = None
+options = None
 
 def quit(error=None):
     if error:
@@ -38,14 +39,7 @@ def locs_cb(locs, userdata, err):
         now = GLib.DateTime.new_now_local()
         provider.get_trips(start, end, now, 0, trips_cb, None)
 
-
-def trips_cb(trips, userdata, err):
-    if err:
-        quit(err.message)
-        return
-
-    if not trips:
-        raise Exception("Failed to find any trips")
+def format_full(trips):
     i = 0
     for trip in trips:
         i += 1
@@ -73,14 +67,45 @@ def trips_cb(trips, userdata, err):
             else:
                 print("       Stops:     0")
         print("")
+
+def format_terse(trips):
+    i = 0
+    for trip in trips:
+        i += 1
+        print ('Trip #%d' % i)
+        start = trip.props.parts[0].props.start
+        end = trip.props.parts[-1].props.end
+        print("       Start:     %s" % start.props.name)
+        print("       Departure: %s" % start.props.departure.format("%F %H:%M"))
+        print("       Delay:     %s" % start.props.departure_delay)
+        print("       End:       %s" % end.props.name)
+        print("       Arrival:   %s" % end.props.arrival.format("%F %H:%M"))
+        print("       Delay:     %s" % end.props.arrival_delay)
+        print("       Switches:  %d" % (len(trip.props.parts)-1))
+        print("")
+
+
+def trips_cb(trips, userdata, err):
+    if err:
+        quit(err.message)
+        return
+
+    if not trips:
+        raise Exception("Failed to find any trips")
+    if options.format == 'full':
+        format_full(trips)
+    else:
+        format_terse(trips)
     quit()
 
 def main(argv):
-    global mainloop, provider
+    global mainloop, provider, options
 
     parser = optparse.OptionParser()
     parser.add_option("--provider", "-p", dest="provider",
                       help="Provider to use", default="de-db")
+    parser.add_option("--format", dest="format",
+                      help="Format to use (terse or full)", default="terse")
     options, args = parser.parse_args(argv)
 
     if len(args) == 3:
