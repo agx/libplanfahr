@@ -35,6 +35,8 @@
  *
  */
 
+#pragma GCC diagnostic ignored "-Wattributes"
+
 /**
  * HafasBin6Header:
  * hafas binary format header version 6
@@ -252,6 +254,8 @@ typedef struct _HafasBin6Attr {
     guint16 key_off; /* offset into string table */                  /* 0x00 */
     guint16 val_off; /* offset into string table */                  /* 0x02 */
 } HafasBin6Attr;
+
+#pragma GCC diagnostic pop /* "-Wattributes" */
 
 /*
  * Access to headers and tables
