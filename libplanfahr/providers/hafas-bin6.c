@@ -172,7 +172,7 @@ log_response_body(LpfProviderHafasBin6 *self, SoupMessage *msg, const char* type
     LpfProviderHafasBin6Private *priv = GET_PRIVATE(self);
     gchar *querylog = NULL;
     gchar *filename = NULL;
-    gchar *time = NULL;
+    gchar *logtime = NULL;
     GDateTime *now;
 
     if (G_LIKELY(!priv->debug))
@@ -180,8 +180,8 @@ log_response_body(LpfProviderHafasBin6 *self, SoupMessage *msg, const char* type
 
     now = g_date_time_new_now_local();
 
-    time = g_date_time_format (now, "%F_%T");
-    filename = g_strdup_printf ("%s-%s.body", type, time);
+    logtime = g_date_time_format (now, "%F_%T");
+    filename = g_strdup_printf ("%s-%s.body", type, logtime);
 
     querylog = g_build_path (G_DIR_SEPARATOR_S,
                              priv->logdir,
@@ -193,7 +193,7 @@ log_response_body(LpfProviderHafasBin6 *self, SoupMessage *msg, const char* type
 
     g_free (querylog);
     g_free (filename);
-    g_free (time);
+    g_free (logtime);
     g_date_time_unref(now);
 }
 
@@ -522,7 +522,7 @@ decompress (const gchar *in, gsize inlen,
             gchar **out, gsize *outlen,
             GError **err) {
     gint ret = -1;
-    gsize read, written;
+    gsize read_, written;
     GConverter *decomp = NULL;
     GConverterResult conv;
     gsize outbuflen, buflen, outpos = 0, inpos = 0;
@@ -544,7 +544,7 @@ decompress (const gchar *in, gsize inlen,
                                     (in + inpos), inlen,
                                     (outbuf + outpos), buflen,
                                     G_CONVERTER_INPUT_AT_END,
-                                    &read, &written,
+                                    &read_, &written,
                                     err);
 
         switch (conv) {
@@ -556,8 +556,8 @@ decompress (const gchar *in, gsize inlen,
             goto out;
         case G_CONVERTER_CONVERTED:
             outpos += written;
-            inpos += read;
-            inlen -= read;
+            inpos += read_;
+            inlen -= read_;
             if (outbuflen - written < buflen) {
                 outbuflen += buflen;
                 outbuf = g_try_realloc (outbuf, outbuflen);
