@@ -106,7 +106,6 @@ AC_DEFUN([gl_MANYWARN_ALL_GCC],
     -Wbad-function-cast \
     -Wc++-compat \
     -Wcast-qual \
-    -Wcast-align \
     -Wwrite-strings \
     -Wconversion \
     -Wsign-conversion \
