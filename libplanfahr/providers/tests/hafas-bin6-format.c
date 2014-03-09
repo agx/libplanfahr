@@ -77,7 +77,7 @@ test_parse_erpel_unkel(void)
                                            {1059,    0 }};
     guint expected_stops[3][2] = { {0, 0}, {0, 8}, {0, 0} };
 
-    g_assert_true(g_file_get_contents(LPF_TEST_SRCDIR "/hafas-bin-6-station-query-1.bin", &bin, &length, NULL));
+    g_assert(g_file_get_contents(LPF_TEST_SRCDIR "/hafas-bin-6-station-query-1.bin", &bin, &length, NULL) == TRUE);
 
     g_assert_cmpint(HAFAS_BIN6_HEADER(bin)->num_trips, ==, 3);
 

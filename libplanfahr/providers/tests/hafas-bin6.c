@@ -46,7 +46,11 @@ test_parse_locs (void)
 "</ResC>", NULL);
 
     locs = parse_locs_xml(xml);
+#if GLIB_CHECK_VERSION (2, 40, 0)
     g_assert_nonnull (locs);
+#else
+    g_assert (locs != NULL);
+#endif
     g_assert_cmpint (g_slist_length (locs), ==, 7);
 
     loc = g_slist_nth (locs, 4)->data;
@@ -76,7 +80,11 @@ test_parse_trips (void)
     gchar *name;
     GDateTime *dep, *arr;
 
+#if GLIB_CHECK_VERSION (2, 38, 0)
     g_assert_true(g_file_get_contents(LPF_TEST_SRCDIR "/hafas-bin-6-station-query-1.bin", &binary, &length, NULL));
+#else
+    g_assert(g_file_get_contents(LPF_TEST_SRCDIR "/hafas-bin-6-station-query-1.bin", &binary, &length, NULL) == TRUE);
+#endif
 
     trips = hafas_binary_parse_trips (binary, length);
 
@@ -127,6 +135,9 @@ test_parse_trips (void)
 int main(int argc, char **argv)
 {
     gboolean ret;
+#if ! GLIB_CHECK_VERSION(2, 36, 0)
+    g_type_init ();
+#endif
     g_test_init (&argc, &argv, NULL);
 
     g_test_add_func ("/providers/de-db/parse_stations", test_parse_locs);
