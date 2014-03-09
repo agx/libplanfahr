@@ -14,7 +14,7 @@ GOBJECT2_REQUIRED=2.10.0
 GIO_REQUIRED=2.10.0
 GOBJECT_INTROSPECTION_REQUIRED=1.39.90
 LIBXML2_REQUIRED=2.0.0
-LIBSOUP_REQUIRED=2.42
+LIBSOUP_REQUIRED=2.38
 
 LIBPLANFAHR_MAJOR_VERSION=`echo $VERSION | awk -F. '{print $1}'`
 LIBPLANFAHR_MINOR_VERSION=`echo $VERSION | awk -F. '{print $2}'`
@@ -56,6 +56,11 @@ AC_ARG_ENABLE(debug,
 if test x"$enable_debug" = x"yes"; then
    AC_DEFINE(ENABLE_DEBUG, 1, [whether debugging is enabled])
 fi
+
+OLDLIBS=$LIBS
+LIBS=$LIBSOUP_LIBS
+AC_CHECK_FUNCS(soup_session_new)
+LIBS=$OLDLIBS
 
 # Setup GLIB_MKENUMS to use glib-mkenums even if GLib is uninstalled.
 GLIB_MKENUMS=`$PKG_CONFIG --variable=glib_mkenums glib-2.0`

@@ -846,7 +846,11 @@ lpf_provider_hafas_bin6_activate (LpfProvider *self, GObject *obj)
     GFile *dir;
     gchar *debugstr;
 
+#ifdef HAVE_SOUP_SESSION_NEW
     priv->session = soup_session_new();
+#else
+    priv->session = soup_session_async_new();
+#endif
     priv->logdir = g_build_path(G_DIR_SEPARATOR_S,
                                 g_get_user_cache_dir(),
                                 PACKAGE,
