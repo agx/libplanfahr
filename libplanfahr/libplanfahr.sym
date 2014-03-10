@@ -11,6 +11,8 @@ LIBPLANFAHR_0.0.0 {
       lpf_provider_activate;
       lpf_provider_deactivate;
       lpf_provider_error_quark;
+      lpf_provider_free_locs;
+      lpf_provider_free_trips;
       lpf_provider_get_locs;
       lpf_provider_get_name;
       lpf_provider_get_trips;

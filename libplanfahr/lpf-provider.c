@@ -168,6 +168,19 @@ lpf_provider_default_init (LpfProviderInterface *iface)
                                      G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 }
 
+/**
+ * lpf_provider_free_trips:
+ * @self: a #LpfProvider
+ * @trips: (element-type LpfTrips): A linked list of trips
+ *
+ * Free the trips list
+ */
+void
+lpf_provider_free_trips(LpfProvider *self, GSList *trips)
+{
+    g_slist_free_full (trips, g_object_unref);
+}
+
 
 /**
  * lpf_provider_create: (skip)

@@ -89,9 +89,13 @@ const char* lpf_provider_get_name (LpfProvider *self);
 void lpf_provider_activate (LpfProvider *self, GObject *obj);
 void lpf_provider_deactivate (LpfProvider *self, GObject *obj);
 GQuark lpf_provider_error_quark (void);
+
 gint lpf_provider_get_locs (LpfProvider *self, const gchar* match, LpfProviderGotLocsNotify callback, gpointer user_data);
-gint lpf_provider_get_trips  (LpfProvider *self, LpfLoc *start, LpfLoc *end,  GDateTime *date, guint64 flags, LpfProviderGotLocsNotify callback, gpointer user_data);
 void lpf_provider_free_locs (LpfProvider *self, GSList *locs);
+
+gint lpf_provider_get_trips  (LpfProvider *self, LpfLoc *start, LpfLoc *end,  GDateTime *date, guint64 flags, LpfProviderGotLocsNotify callback, gpointer user_data);
+void lpf_provider_free_trips (LpfProvider *self, GSList *trips);
+
 
 G_END_DECLS
 
