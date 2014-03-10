@@ -76,6 +76,7 @@ typedef struct {
   GObjectClass parent_class;
 } LpfManagerClass;
 
+LpfManager *lpf_manager_new (void);
 GType lpf_manager_get_type (void);
 GQuark lpf_manager_error_quark (void);
 GStrv lpf_manager_get_available_providers(void);

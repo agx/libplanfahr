@@ -227,6 +227,11 @@ LpfProvider *lpf_manager_activate_provider(LpfManager *self,
     return provider;
 }
 
+LpfManager *lpf_manager_new (void)
+{
+    return LPF_MANAGER(g_object_new (LPF_TYPE_MANAGER, NULL));
+}
+
 static void
 deactivate_provider(gpointer provider, gpointer user_data)
 {
