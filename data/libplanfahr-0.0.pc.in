@@ -8,4 +8,4 @@ Version: @VERSION@
 Description: libplanfahr GObject library
 Requires: gobject-2.0 libxml-2.0
 Libs: -L${libdir} -lplanfahr-0.0
-Cflags: -I${includedir}/liblibplanfahr-0.0
+Cflags: -I${includedir}/libplanfahr-0.0

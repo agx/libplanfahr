@@ -24,7 +24,7 @@
 #endif
 
 #include <glib-object.h>
-#include <lpf-loc.h>
+#include <libplanfahr/lpf-loc.h>
 
 G_BEGIN_DECLS
 

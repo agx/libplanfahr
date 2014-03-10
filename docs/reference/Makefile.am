@@ -10,7 +10,7 @@ DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.sgml
 # The directory containing the source code. Relative to $(srcdir).
 # gtk-doc will search all .c & .h files beneath here for inline comments
 # documenting functions and macros.
-DOC_SOURCE_DIR=../../src
+DOC_SOURCE_DIR=../../libplanfahr
 
 # Extra options to supply to gtkdoc-scan.
 SCAN_OPTIONS='--rebuild-types'
@@ -47,7 +47,6 @@ content_files =				\
 # Other files to distribute.
 extra_files =
 
-
 # CFLAGS and LDFLAGS for compiling scan program. Only needed
 # if $(DOC_MODULE).types is non-empty.
 GTKDOC_CFLAGS =				\
@@ -58,7 +57,7 @@ GTKDOC_CFLAGS =				\
 	$(NULL)
 
 GTKDOC_LIBS =					\
-	$(top_builddir)/src/libplanfahr-0.0.la	\
+	$(top_builddir)/libplanfahr/libplanfahr-0.0.la	\
 	$(GLIB_LIBS)
 
 # include common portion ...

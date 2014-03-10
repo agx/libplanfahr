@@ -25,12 +25,12 @@
 
 #define __LIBPLANFAHR_H_INSIDE__
 
-#include "lpf-loc.h"
-#include "lpf-manager.h"
-#include "lpf-provider.h"
-#include "lpf-stop.h"
-#include "lpf-trip.h"
-#include "lpf-trip-part.h"
+#include <libplanfahr/lpf-loc.h>
+#include <libplanfahr/lpf-manager.h>
+#include <libplanfahr/lpf-provider.h>
+#include <libplanfahr/lpf-stop.h>
+#include <libplanfahr/lpf-trip.h>
+#include <libplanfahr/lpf-trip-part.h>
 
 #undef __LIBPLANFAHR_H_INSIDE__
 

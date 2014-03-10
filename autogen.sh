@@ -8,7 +8,7 @@ REQUIRED_INTLTOOL_VERSION=0.35.0
 PKG_NAME=planfahr
 
 (test -f $srcdir/configure.ac \
-  && test -f $srcdir/src/libplanfahr.h) || {
+  && test -f $srcdir/libplanfahr/libplanfahr.h) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
     echo " top-level $PKG_NAME directory"
     exit 1

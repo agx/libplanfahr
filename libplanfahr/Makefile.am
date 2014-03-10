@@ -26,7 +26,7 @@ PLANFAHR_SOURCE_FILES = \
 	lpf-trip-part.c \
 	$(NULL)
 
-libplanfahr_0_0_ladir = $(includedir)/libplanfahr/
+libplanfahr_0_0_ladir = $(includedir)/libplanfahr-0.0/libplanfahr
 libplanfahr_0_0_la_HEADERS = \
 	$(PLANFAHR_HEADER_FILES) \
 	$(NULL)
@@ -72,7 +72,6 @@ Lpf_0_0_gir_CFLAGS = $(libplanfahr_0_0_la_CFLAGS)
 Lpf_0_0_gir_LIBS = $(builddir)/libplanfahr-0.0.la
 Lpf_0_0_gir_EXPORT_PACKAGES = libplanfahr-0.0
 Lpf_0_0_gir_SCANNERFLAGS = \
-	--c-include="libplanfahr/libplanfahr.h" \
 	--namespace=Lpf \
 	--symbol-prefix=lpf \
 	--pkg=gthread-2.0 \
@@ -80,7 +79,6 @@ Lpf_0_0_gir_SCANNERFLAGS = \
 	-I$(top_srcdir) \
 	$(NULL)
 Lpf_0_0_gir_FILES = \
-	$(srcdir)/libplanfahr.h \
 	$(PLANFAHR_SOURCE_FILES:%=$(srcdir)/%) \
 	$(PLANFAHR_HEADER_FILES:%=$(srcdir)/%) \
 	$(NULL)

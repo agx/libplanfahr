@@ -31,7 +31,7 @@ libplanfahr_provider_ch_sbb_la_CFLAGS = \
 	$(LIBXML2_CFLAGS) \
         $(LIBSOUP_CFLAGS) \
 	$(WARN_CFLAGS) \
-	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/libplanfahr \
 	$(NULL)
 
 libplanfahr_provider_ch_sbb_la_LDFLAGS = \
@@ -55,7 +55,7 @@ libplanfahr_provider_de_db_la_CFLAGS = \
 	$(LIBXML2_CFLAGS) \
         $(LIBSOUP_CFLAGS) \
 	$(WARN_CFLAGS) \
-	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/libplanfahr \
 	$(NULL)
 
 libplanfahr_provider_de_db_la_LDFLAGS = \
@@ -79,7 +79,7 @@ libplanfahr_provider_de_bvg_la_CFLAGS = \
 	$(LIBXML2_CFLAGS) \
         $(LIBSOUP_CFLAGS) \
 	$(WARN_CFLAGS) \
-	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/libplanfahr \
 	$(NULL)
 
 libplanfahr_provider_de_bvg_la_LDFLAGS = \

@@ -11,11 +11,11 @@ AM_CPPFLAGS = \
 	$(GTHREAD2_CFLAGS) \
 	$(LIBXML2_CFLAGS) \
 	$(WARN_CFLAGS) \
-	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/libplanfahr \
 	$(NULL)
 
 LDADD = \
-	$(top_builddir)/src/libplanfahr-0.0.la \
+	$(top_builddir)/libplanfahr/libplanfahr-0.0.la \
 	$(GLIB2_LIBS) \
 	$(GIO2_LIBS) \
 	$(GOBJECT2_LIBS) \

@@ -1,5 +1,5 @@
 AC_INIT(libplanfahr, 0.0.0)
-AC_CONFIG_SRCDIR(src/libplanfahr.h)
+AC_CONFIG_SRCDIR(libplanfahr/libplanfahr.h)
 AC_CONFIG_AUX_DIR([build-aux])
 AM_CONFIG_HEADER(config.h)
 AC_CONFIG_MACRO_DIR([m4])
@@ -67,9 +67,9 @@ AC_SUBST(LPF_PROVIDERS_DIR)
 AC_CONFIG_FILES([run],
                 [chmod +x,-w run])
 AC_CONFIG_FILES(Makefile
-                src/Makefile
-                src/providers/Makefile
-                src/providers/tests/Makefile
+                libplanfahr/Makefile
+                libplanfahr/providers/Makefile
+                libplanfahr/providers/tests/Makefile
                 data/Makefile
                 data/libplanfahr-0.0.pc
                 docs/Makefile
