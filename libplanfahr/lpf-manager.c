@@ -49,7 +49,6 @@ G_DEFINE_TYPE (LpfManager, lpf_manager, G_TYPE_OBJECT)
 
 typedef struct _LpfManagerPrivate LpfManagerPrivate;
 struct _LpfManagerPrivate {
-    GSList *available; /* available providers */
     GSList *active;    /* active providers */
 };
 
@@ -253,7 +252,6 @@ lpf_manager_dispose(GObject *object)
     LpfManagerPrivate *priv = GET_PRIVATE (self);
     GObjectClass *parent_class = G_OBJECT_CLASS (lpf_manager_parent_class);
 
-    /* We need to do this before dropping the ref on applet */
     g_slist_foreach (priv->active, deactivate_provider, self);
     g_slist_free (priv->active);
 
@@ -275,5 +273,4 @@ lpf_manager_init (LpfManager *self)
 {
     LpfManagerPrivate *priv = GET_PRIVATE (self);
     priv->active = NULL;
-    priv->available = NULL;
 }
