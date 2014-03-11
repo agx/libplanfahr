@@ -101,7 +101,7 @@ GStrv lpf_manager_get_available_providers(void)
     if (glob(pattern, GLOB_NOSORT, NULL, &globbuf))
         goto out;
 
-    if (!(providers = g_try_malloc (sizeof(gchar) * globbuf.gl_pathc + 1))) {
+    if (!(providers = g_try_malloc (sizeof(gchar*) * (globbuf.gl_pathc + 1)))) {
         goto out;
     }
 
