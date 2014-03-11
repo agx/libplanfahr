@@ -666,6 +666,7 @@ lpf_provider_hafas_bin6_get_trips (LpfProvider *self,
 
     g_object_ref (start);
     g_object_ref (end);
+    g_date_time_ref (date);
 
     trips_data = g_try_malloc(sizeof(LpfProviderHafasBin6Private));
     if (!trips_data)
@@ -710,6 +711,7 @@ lpf_provider_hafas_bin6_get_trips (LpfProvider *self,
     g_free (timestr);
     g_object_unref (start);
     g_object_unref (end);
+    g_date_time_unref (date);
     if (ret < 0)
         g_free (trips_data);
     return ret;
