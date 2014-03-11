@@ -7,4 +7,4 @@ export LD_LIBRARY_PATH="${ABS_BUILDDIR}/libplanfahr/.libs:$LD_LIBRARY_PATH"
 export   LPF_PROVIDERS="${ABS_BUILDDIR}/libplanfahr/providers/.libs"
 export PKG_CONFIG_PATH="${ABS_BUILDDIR}/data/:$PKG_CONFIG_PATH"
 
-exec $@
+exec "$@"
