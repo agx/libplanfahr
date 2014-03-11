@@ -171,7 +171,7 @@ lpf_provider_default_init (LpfProviderInterface *iface)
 /**
  * lpf_provider_free_trips:
  * @self: a #LpfProvider
- * @trips: (element-type LpfTrips): A linked list of trips
+ * @trips: (element-type LpfTrip): A linked list of trips
  *
  * Free the trips list
  */
