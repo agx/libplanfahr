@@ -253,7 +253,7 @@ lpf_provider_hafas_bin6_get_locs (LpfProvider *self, const char* match, LpfProvi
 
     g_return_val_if_fail (priv->session, -1);
 
-    locs_data = g_malloc(sizeof(LpfProviderHafasBin6Private));
+    locs_data = g_try_malloc(sizeof(LpfProviderGotItUserData));
     if (!locs_data)
         goto out;
     xml = g_strdup_printf ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -670,7 +670,7 @@ lpf_provider_hafas_bin6_get_trips (LpfProvider *self,
     g_object_ref (end);
     g_date_time_ref (date);
 
-    trips_data = g_try_malloc(sizeof(LpfProviderHafasBin6Private));
+    trips_data = g_try_malloc(sizeof(LpfProviderGotItUserData));
     if (!trips_data)
         goto out;
 
