@@ -30,6 +30,8 @@ docs/reference/*.bak
 docs/reference/html
 docs/reference/libplanfahr-*-decl-list.txt
 docs/reference/libplanfahr-*-decl.txt
+docs/reference/libplanfahr-*-overrides.txt
+docs/reference/libplanfahr-*-sections.txt
 docs/reference/libplanfahr-*-undeclared.txt
 docs/reference/libplanfahr-*-undocumented.txt
 docs/reference/libplanfahr-*-unused.txt

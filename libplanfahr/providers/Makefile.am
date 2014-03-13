@@ -15,6 +15,7 @@ pkglib_LTLIBRARIES = \
 	libplanfahr-provider-ch-sbb.la \
 	libplanfahr-provider-de-db.la \
 	libplanfahr-provider-de-bvg.la \
+	libplanfahr-provider-test-test.la \
 	$(NULL)
 
 libplanfahr_provider_ch_sbb_la_SOURCES = \
@@ -87,4 +88,24 @@ libplanfahr_provider_de_bvg_la_LDFLAGS = \
 	-module \
 	-avoid-version \
         $(LIBSOUP_LIBS) \
+	$(NULL)
+
+libplanfahr_provider_test_test_la_SOURCES = \
+	test-test.h \
+	test-test.c \
+	$(NULL)
+
+libplanfahr_provider_test_test_la_CFLAGS = \
+	$(AM_CPPFLAGS) \
+	$(GIO2_CFLAGS) \
+	$(GOBJECT2_CFLAGS) \
+	$(GTHREAD2_CFLAGS) \
+	$(LIBXML2_CFLAGS) \
+	$(WARN_CFLAGS) \
+	-I$(top_srcdir)/libplanfahr \
+	$(NULL)
+
+libplanfahr_provider_test_test_la_LDFLAGS = \
+	-module \
+	-avoid-version \
 	$(NULL)
