@@ -664,6 +664,8 @@ lpf_provider_hafas_bin6_get_trips (LpfProvider *self,
     g_return_val_if_fail (priv->session, -1);
     g_return_val_if_fail (date, -1);
 
+    g_return_val_if_fail (!flags, 0);
+
     g_object_ref (start);
     g_object_ref (end);
     g_date_time_ref (date);
