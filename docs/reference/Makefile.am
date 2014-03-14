@@ -31,6 +31,7 @@ CFILE_GLOB=
 # Header files to ignore when scanning.
 IGNORE_HFILES = \
 	planfahr.h 	\
+	ch-sbb.h        \
 	de-bvg.h    	\
 	de-db.h    	\
 	hafas-bin6.h 	\
