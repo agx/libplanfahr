@@ -20,6 +20,7 @@ TAGS
 *.gir
 *.typelib
 *~
+gtk-doc.make
 .deps/
 .libs/
 autom4te.cache/
