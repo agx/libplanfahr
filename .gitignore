@@ -42,4 +42,6 @@ docs/reference/libplanfahr-*.types
 docs/reference/tmpl
 docs/reference/xml
 m4/
-src/providers/tests/*.trs
+libplanfahr/providers/tests/hafas-bin6
+libplanfahr/providers/tests/hafas-bin6-format
+libplanfahr/providers/tests/*.trs
