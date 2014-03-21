@@ -210,3 +210,45 @@ lpf_loc_set_opaque(LpfLoc *self, gpointer opaque)
 
     priv->opaque = opaque;
 }
+
+/**
+ * lpf_loc_get_name: (transfer none):
+ * @self: a #LpfLoc
+ *
+ * Returns: the location's name
+ */
+const gchar*
+lpf_loc_get_name(LpfLoc *self)
+{
+    LpfLocPrivate *priv = GET_PRIVATE (self);
+
+    return priv->name;
+}
+
+/**
+ * lpf_loc_get_long:
+ * @self: a #LpfLoc
+ *
+ * Returns: the locations longitude
+ */
+double
+lpf_loc_get_long(LpfLoc *self)
+{
+    LpfLocPrivate *priv = GET_PRIVATE (self);
+
+    return priv->long_;
+}
+
+/**
+ * lpf_loc_get_lat:
+ * @self: a #LpfLoc
+ *
+ * Returns: the locations latitude
+ */
+double
+lpf_loc_get_lat(LpfLoc *self)
+{
+    LpfLocPrivate *priv = GET_PRIVATE (self);
+
+    return priv->lat;
+}

@@ -56,8 +56,11 @@ typedef struct {
   GObjectClass parent_class;
 } LpfLocClass;
 
-GType lpf_loc_get_type (void);
-/* FIXME: Only used by providers, don't export symbol */
+GType        lpf_loc_get_type (void);
+const gchar *lpf_loc_get_name (LpfLoc* self);
+double       lpf_loc_get_lat  (LpfLoc *self);
+double       lpf_loc_get_long (LpfLoc *self);
+
 gpointer lpf_loc_get_opaque (LpfLoc *self);
 void lpf_loc_set_opaque (LpfLoc *self, gpointer opaque);
 

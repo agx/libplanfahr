@@ -19,6 +19,9 @@ LIBPLANFAHR_0.0.0 {
       lpf_provider_get_type;
       /* LpfLoc */
       lpf_loc_get_type;
+      lpf_loc_get_name;
+      lpf_loc_get_long;
+      lpf_loc_get_lat;
       /* LpfStop */
       lpf_stop_get_type;
       /* LpfTrip */
