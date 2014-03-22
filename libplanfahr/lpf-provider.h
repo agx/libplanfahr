@@ -64,6 +64,21 @@ typedef enum
 } LpfProviderGetLocsFlags;
 
 
+/**
+ * LpfProviderGetTripsFlags:
+ * @LPF_PROVIDER_GET_TRIPS_NONE: No flags
+ * @LPF_PROVIDER_GET_TRIPS_ARRIVAL: Look for arrivals instead of departures
+ *    at that date and time
+ *
+ * Flags passed to #lpf_provider_get_tips.
+ */
+typedef enum
+{
+    LPF_PROVIDER_GET_TRIPS_NONE      =      0,
+    LPF_PROVIDER_GET_TRIPS_ARRIVAL   = 1 << 1,
+} LpfProviderGetTripsFlags;
+
+
 #define LPF_TYPE_PROVIDER (lpf_provider_get_type())
 
 #define LPF_PROVIDER(obj) \
@@ -91,7 +106,7 @@ typedef struct {
     const gchar* (*get_name) (LpfProvider *self);
 
     gint (*get_locs)  (LpfProvider *self, const gchar *match, LpfProviderGetLocsFlags flags, LpfProviderGotLocsNotify callback, gpointer user_data);
-    gint (*get_trips) (LpfProvider *self, LpfLoc *start, LpfLoc *end,  GDateTime *date, guint64 flags, LpfProviderGotLocsNotify callback, gpointer user_data);
+    gint (*get_trips) (LpfProvider *self, LpfLoc *start, LpfLoc *end,  GDateTime *date, LpfProviderGetTripsFlags flags, LpfProviderGotLocsNotify callback, gpointer user_data);
 } LpfProviderInterface;
 
 GType lpf_provider_get_type (void);
@@ -107,7 +122,7 @@ GQuark lpf_provider_error_quark (void);
 gint lpf_provider_get_locs (LpfProvider *self, const gchar* match, LpfProviderGetLocsFlags flags, LpfProviderGotLocsNotify callback, gpointer user_data);
 void lpf_provider_free_locs (LpfProvider *self, GSList *locs);
 
-gint lpf_provider_get_trips  (LpfProvider *self, LpfLoc *start, LpfLoc *end,  GDateTime *date, guint64 flags, LpfProviderGotLocsNotify callback, gpointer user_data);
+gint lpf_provider_get_trips  (LpfProvider *self, LpfLoc *start, LpfLoc *end,  GDateTime *date, LpfProviderGetTripsFlags flags, LpfProviderGotLocsNotify callback, gpointer user_data);
 void lpf_provider_free_trips (LpfProvider *self, GSList *trips);
 
 

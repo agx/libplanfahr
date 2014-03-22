@@ -643,7 +643,7 @@ lpf_provider_hafas_bin6_get_trips (LpfProvider *self,
                                    LpfLoc *start,
                                    LpfLoc *end,
                                    GDateTime *date,
-                                   guint64 flags,
+                                   LpfProviderGetTripsFlags flags,
                                    LpfProviderGotTripsNotify callback,
                                    gpointer user_data)
 {
@@ -656,7 +656,7 @@ lpf_provider_hafas_bin6_get_trips (LpfProvider *self,
     /* allowed vehicle types */
     const gchar *train_restriction = "11111111111111";
     /* whether time is arrival or departure time */
-    const gchar *by_departure = "1";
+    const gchar *by_departure;
     char *start_id = NULL, *end_id = NULL;
 
     g_return_val_if_fail (start, -1);
@@ -664,8 +664,6 @@ lpf_provider_hafas_bin6_get_trips (LpfProvider *self,
     g_return_val_if_fail (callback, -1);
     g_return_val_if_fail (priv->session, -1);
     g_return_val_if_fail (date, -1);
-
-    g_return_val_if_fail (!flags, 0);
 
     g_object_ref (start);
     g_object_ref (end);
@@ -684,9 +682,9 @@ lpf_provider_hafas_bin6_get_trips (LpfProvider *self,
         g_warning ("Details missing.");
         goto out;
     }
+    by_departure = (flags & LPF_PROVIDER_GET_TRIPS_ARRIVAL) ? "0" : "1";
 
     uri = soup_uri_new (lpf_provider_hafas_bin6_trips_url(LPF_PROVIDER_HAFAS_BIN6(self)));
-
     soup_uri_set_query_from_fields (uri,
                                     "start", "Suchen",
                                     "REQ0JourneyStopsS0ID", start_id,

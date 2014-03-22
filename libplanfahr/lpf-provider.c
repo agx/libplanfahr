@@ -132,7 +132,7 @@ lpf_provider_free_locs(LpfProvider *self, GSList *locs)
  * @start: start of trip location
  * @end: end of trip location
  * @date: Date and time the trip starts as #GDateTime
- * @flags: flags
+ * @flags: #LpfProviderGetTripsFlags for trip lookups
  * @callback: (scope async): #LpfProviderGotTripsNotify to invoke
  *   once trips are available
  * @user_data: (allow-none): User data for the callback
@@ -147,7 +147,7 @@ lpf_provider_free_locs(LpfProvider *self, GSList *locs)
  */
 
 gint
-lpf_provider_get_trips (LpfProvider *self, LpfLoc *start, LpfLoc *end, GDateTime *date, guint64 flags, LpfProviderGotLocsNotify callback, gpointer user_data)
+lpf_provider_get_trips (LpfProvider *self, LpfLoc *start, LpfLoc *end, GDateTime *date, LpfProviderGetTripsFlags flags, LpfProviderGotLocsNotify callback, gpointer user_data)
 {
     g_return_val_if_fail (LPF_IS_PROVIDER (self), -1);
     g_return_val_if_fail (start, -1);
