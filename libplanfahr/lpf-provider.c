@@ -91,6 +91,7 @@ lpf_provider_deactivate (LpfProvider *self, GObject *obj)
  * lpf_provider_get_locs:
  * @self: a #LpfProvider
  * @match: locations to match
+ * @flags: #LpfProviderGetLocsFlags for loation lookup
  * @callback: (scope async): #LpfProviderGotLocsNotify to invoke
  *   once locations are available
  * @user_data: (allow-none): User data for the callback
@@ -103,13 +104,13 @@ lpf_provider_deactivate (LpfProvider *self, GObject *obj)
  * Returns: 0 on success, -1 on error
  */
 gint
-lpf_provider_get_locs (LpfProvider *self, const char* match, LpfProviderGotLocsNotify callback, gpointer user_data)
+lpf_provider_get_locs (LpfProvider *self, const char* match, LpfProviderGetLocsFlags flags, LpfProviderGotLocsNotify callback, gpointer user_data)
 {
     g_return_val_if_fail (LPF_IS_PROVIDER (self), -1);
     g_return_val_if_fail (match, -1);
     g_return_val_if_fail (callback, -1);
 
-    return LPF_PROVIDER_GET_INTERFACE (self)->get_locs (self, match, callback, user_data);
+    return LPF_PROVIDER_GET_INTERFACE (self)->get_locs (self, match, flags, callback, user_data);
 }
 
 /**

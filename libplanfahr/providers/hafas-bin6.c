@@ -243,7 +243,7 @@ out:
 
 
 static gint
-lpf_provider_hafas_bin6_get_locs (LpfProvider *self, const char* match, LpfProviderGotLocsNotify callback, gpointer user_data)
+lpf_provider_hafas_bin6_get_locs (LpfProvider *self, const char* match, LpfProviderGetLocsFlags flags, LpfProviderGotLocsNotify callback, gpointer user_data)
 {
     LpfProviderHafasBin6Private *priv = GET_PRIVATE(self);
     SoupMessage *msg;
@@ -252,6 +252,7 @@ lpf_provider_hafas_bin6_get_locs (LpfProvider *self, const char* match, LpfProvi
     gint ret = -1;
 
     g_return_val_if_fail (priv->session, -1);
+    g_return_val_if_fail (!flags, -1);
 
     locs_data = g_try_malloc(sizeof(LpfProviderGotItUserData));
     if (!locs_data)

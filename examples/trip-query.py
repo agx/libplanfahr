@@ -49,7 +49,7 @@ def locs_cb(locs, userdata, err):
         start = locs[0]
         end, when = userdata
         print("Start: %s" % start.props.name)
-        provider.get_locs(end, locs_cb, when)
+        provider.get_locs(end, 0, locs_cb, when)
     else:
         end = locs[0]
         print("End: %s" % end.props.name)
@@ -148,7 +148,7 @@ def main(argv):
     print("Loaded provider %s" % provider.props.name)
 
     when = parse_datetime(options.when)
-    provider.get_locs(start, locs_cb, (end, when))
+    provider.get_locs(start, 0, locs_cb, (end, when))
 
     mainloop = GObject.MainLoop()
     GObject.timeout_add_seconds(20, quit, "timed out")

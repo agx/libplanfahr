@@ -50,6 +50,20 @@ typedef enum {
     LPF_PROVIDER_ERROR_PARSE_FAILED,
 } LpfProviderError;
 
+
+/**
+ * LpfProviderGetLocsFlags:
+ * @LPF_PROVIDER_GET_LOCS_NONE: No flags
+ *
+ * Flags passed to #lpf_provider_get_locs. Currently only here for symmetry with
+ * other API functions.
+ */
+typedef enum
+{
+    LPF_PROVIDER_GET_LOCS_NONE = 0,
+} LpfProviderGetLocsFlags;
+
+
 #define LPF_TYPE_PROVIDER (lpf_provider_get_type())
 
 #define LPF_PROVIDER(obj) \
@@ -76,8 +90,8 @@ typedef struct {
 
     const gchar* (*get_name) (LpfProvider *self);
 
-    gint (*get_locs)   (LpfProvider *self, const gchar *match, LpfProviderGotLocsNotify callback, gpointer user_data);
-    gint (*get_trips)  (LpfProvider *self, LpfLoc *start, LpfLoc *end,  GDateTime *date, guint64 flags, LpfProviderGotLocsNotify callback, gpointer user_data);
+    gint (*get_locs)  (LpfProvider *self, const gchar *match, LpfProviderGetLocsFlags flags, LpfProviderGotLocsNotify callback, gpointer user_data);
+    gint (*get_trips) (LpfProvider *self, LpfLoc *start, LpfLoc *end,  GDateTime *date, guint64 flags, LpfProviderGotLocsNotify callback, gpointer user_data);
 } LpfProviderInterface;
 
 GType lpf_provider_get_type (void);
@@ -90,7 +104,7 @@ void lpf_provider_activate (LpfProvider *self, GObject *obj);
 void lpf_provider_deactivate (LpfProvider *self, GObject *obj);
 GQuark lpf_provider_error_quark (void);
 
-gint lpf_provider_get_locs (LpfProvider *self, const gchar* match, LpfProviderGotLocsNotify callback, gpointer user_data);
+gint lpf_provider_get_locs (LpfProvider *self, const gchar* match, LpfProviderGetLocsFlags flags, LpfProviderGotLocsNotify callback, gpointer user_data);
 void lpf_provider_free_locs (LpfProvider *self, GSList *locs);
 
 gint lpf_provider_get_trips  (LpfProvider *self, LpfLoc *start, LpfLoc *end,  GDateTime *date, guint64 flags, LpfProviderGotLocsNotify callback, gpointer user_data);
