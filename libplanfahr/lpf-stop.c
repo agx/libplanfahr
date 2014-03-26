@@ -124,7 +124,7 @@ calc_delay(GDateTime *planned, GDateTime *real)
     if (planned == NULL || real == NULL)
         return 0;
 
-    return g_date_time_difference (planned, real) / (60 * 1000 * 1000);
+    return g_date_time_difference (real, planned) / (60 * 1000 * 1000);
 }
 
 
