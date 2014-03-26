@@ -357,14 +357,14 @@ hafas_bin6_parse_each_trip (const gchar *data, gsize num, guint base, const char
                 h = pd->arr_pred / 100;
                 m = pd->arr_pred % 100;
                 dt = lpf_provider_hafas_bin6_date_time (base, day_off, h, m);
-                g_object_set (start, "rt_arrival", dt, NULL);
+                g_object_set (end, "rt_arrival", dt, NULL);
             }
 
             if (pd->dep_pred != HAFAS_BIN6_NO_REALTIME) {
                 h = pd->dep_pred / 100;
                 m = pd->dep_pred % 100;
                 dt = lpf_provider_hafas_bin6_date_time (base, day_off, h, m);
-                g_object_set (end, "rt_departure", dt, NULL);
+                g_object_set (start, "rt_departure", dt, NULL);
             }
 
             LPF_DEBUG("Trip #%d, part #%d, Pred. Dep Plat: %s, Pred. Arr Plat: %s", i, j,
