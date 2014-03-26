@@ -71,13 +71,15 @@ def format_full(trips):
             print("       Departure: %s" % start.props.departure.format("%F %H:%M"))
             if start.props.dep_plat:
                 print("       Platform:  %s" % start.props.dep_plat)
-            print("       Delay:     %s" % start.props.departure_delay)
+            if start.props.rt_departure:
+                print("       Delay:     %s" % start.props.departure_delay)
             print("       End:       %s" % end.props.name)
             print("       Arrival:   %s" % end.props.arrival.format("%F %H:%M"))
             if end.props.arr_plat:
                 print("       Platform:  %s" % end.props.arr_plat)
             print("       Line:      %s" % part.props.line)
-            print("       Delay:     %s" % end.props.arrival_delay)
+            if end.props.rt_arrival:
+                print("       Delay:     %s" % end.props.arrival_delay)
             if part.props.stops and len(part.props.stops) > 0:
                 print("       %s Stops:   %s" % (len(part.props.stops),
                                                  ", ".join([s.props.name for s in part.props.stops])))
