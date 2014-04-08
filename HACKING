@@ -6,7 +6,7 @@ Running the tests
 
 To run a single test in more detail use e.g.
 
-    gtester --verbose src/providers/tests/de-db
+    gtester --verbose libplanfahr/providers/tests/hafas-bin6-format
 
 # Debugging #
 You can use the LPF_DEBUG variable to make libplanfahr write out the querry
