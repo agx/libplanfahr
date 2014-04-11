@@ -43,6 +43,7 @@ libplanfahr_0_0_la_CFLAGS = \
 	$(GIO2_CFLAGS) \
 	$(GOBJECT2_CFLAGS) \
 	$(GTHREAD2_CFLAGS) \
+	$(GMODULE_CFLAGS) \
 	$(WARN_CFLAGS) \
 	$(NULL)
 
@@ -50,6 +51,7 @@ libplanfahr_0_0_la_LIBADD = \
 	$(GIO2_LIBS) \
 	$(GOBJECT2_LIBS) \
 	$(GTHREAD2_LIBS) \
+	$(GMODULE_LIBS) \
 	$(NULL)
 
 libplanfahr_0_0_la_DEPENDENCIES = \
