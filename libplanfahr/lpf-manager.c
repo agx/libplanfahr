@@ -69,7 +69,7 @@ static gchar *plugin_path(const char *name)
     dir = g_strdup(g_getenv(LPF_PROVIDERS_ENV));
     if (!dir)
         dir = g_strdup(LPF_PROVIDERS_DIR);
-    prefix = g_strjoin("/", dir, PROVIDER_LIBBASE, NULL);
+    prefix = g_build_path(G_DIR_SEPARATOR_S, dir, PROVIDER_LIBBASE, NULL);
     ret = g_strjoin(NULL, prefix, name, ".", G_MODULE_SUFFIX, NULL);
 
     g_free(dir);
@@ -96,7 +96,7 @@ GStrv lpf_manager_get_available_providers(void)
     }
 
     pattern = plugin_path("*");
-    prefix_len = 1 + g_strrstr(pattern, "/") + strlen(PROVIDER_LIBBASE) - pattern ;
+    prefix_len = 1 + g_strrstr(pattern, G_DIR_SEPARATOR_S) + strlen(PROVIDER_LIBBASE) - pattern ;
     LPF_DEBUG("Looking for providers in %s", pattern);
     if (glob(pattern, GLOB_NOSORT, NULL, &globbuf))
         goto out;
