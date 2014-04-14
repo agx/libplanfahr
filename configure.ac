@@ -67,6 +67,8 @@ LIBS=$OLDLIBS
 GLIB_MKENUMS=`$PKG_CONFIG --variable=glib_mkenums glib-2.0`
 AC_SUBST(GLIB_MKENUMS)
 
+GLIB_TESTS
+
 LPF_PROVIDERS_DIR="$libdir/libplanfahr/providers"
 AC_SUBST(LPF_PROVIDERS_DIR)
 

@@ -1,6 +1,7 @@
 include $(top_srcdir)/flymake.mk
+include $(top_srcdir)/glib-tap.mk
 
-check_PROGRAMS = hafas-bin6 hafas-bin6-format
+test_programs = hafas-bin6 hafas-bin6-format
 
 AM_CPPFLAGS = \
 	-DLIBPLANFAHR_COMPILATION \
@@ -50,9 +51,7 @@ hafas_bin6_format_LDADD = \
 	$(NULL)
 
 
-uninstalled_testdir = tests/
-dist_uninstalled_test_DATA = \
+dist_test_data = \
 	hafas-bin-6-station-query-1.bin \
 	$(NULL)
 
-TESTS = $(check_PROGRAMS)
