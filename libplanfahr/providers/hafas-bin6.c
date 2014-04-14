@@ -827,8 +827,7 @@ lpf_provider_hafas_bin6_parse_service_day (const char *data, int idx)
 GDateTime*
 lpf_provider_hafas_bin6_date_time(guint base_days, guint off_days, guint hours, guint min)
 {
-    /* FIXME: should we always use Europe/Berlin as TZ? */
-    GDateTime *dt, *base = g_date_time_new_local (1979, 12, 31, 0, 0, 0);
+    GDateTime *dt, *base = g_date_time_new_utc (1979, 12, 31, 0, 0, 0);
 
     dt = g_date_time_add (base,
                           (base_days + off_days) * G_TIME_SPAN_DAY +
