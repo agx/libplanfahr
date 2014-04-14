@@ -8,6 +8,7 @@ AM_CPPFLAGS = \
 	-DG_LOG_DOMAIN="\"LibPlanFahr\"" \
 	-DLIBPLANFAHR_COMPILATION \
 	-DLPF_PROVIDERS_DIR="\"$(LPF_PROVIDERS_DIR)\"" \
+	-I$(top_srcdir) \
 	$(NULL)
 
 pkglib_LTLIBRARIES = \

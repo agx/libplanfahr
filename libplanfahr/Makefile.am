@@ -91,7 +91,7 @@ nodist_gir_DATA = $(INTROSPECTION_GIRS)
 typelibdir = $(libdir)/girepository-1.0
 nodist_typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 
-CLEANFILES = $(gir_DATA) $(typelibs_DATA)
+CLEANFILES = $(nodist_gir_DATA) $(nodist_typelib_DATA)
 
 endif # HAVE_INTROSPECTION
 

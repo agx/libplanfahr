@@ -12,6 +12,7 @@ AM_CPPFLAGS = \
 	$(GTHREAD2_CFLAGS) \
 	$(LIBXML2_CFLAGS) \
 	$(WARN_CFLAGS) \
+	-I$(top_srcdir) \
 	-I$(top_srcdir)/libplanfahr \
 	$(NULL)
 
