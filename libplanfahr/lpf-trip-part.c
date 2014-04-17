@@ -144,8 +144,7 @@ lpf_trip_part_finalize (GObject *object)
     g_free (priv->line);
     g_slist_free_full (priv->stops, g_object_unref);
 
-    if (parent_class->finalize != NULL)
-        parent_class->finalize (object);
+    parent_class->finalize (object);
 }
 
 

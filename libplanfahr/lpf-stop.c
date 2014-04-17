@@ -207,6 +207,8 @@ lpf_stop_finalize (GObject *object)
         g_date_time_unref (priv->rt_arr);
     if (parent_class->finalize != NULL)
         parent_class->finalize (object);
+
+    parent_class->finalize (object);
 }
 
 

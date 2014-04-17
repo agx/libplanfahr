@@ -135,8 +135,8 @@ lpf_loc_finalize (GObject *object)
 
     g_free (priv->name);
     g_free (priv->opaque);
-    if (parent_class->finalize != NULL)
-        parent_class->finalize (object);
+
+    parent_class->finalize (object);
 }
 
 
