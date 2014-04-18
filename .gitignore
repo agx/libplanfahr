@@ -39,6 +39,8 @@ docs/reference/libplanfahr-*.interfaces
 docs/reference/libplanfahr-*.prerequisites
 docs/reference/libplanfahr-*.signals
 docs/reference/libplanfahr-*.types
+docs/reference/libplanfahr-*-overrides.txt
+docs/reference/libplanfahr-*-sections.txt
 docs/reference/tmpl
 docs/reference/xml
 m4/
