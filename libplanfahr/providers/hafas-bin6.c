@@ -708,6 +708,7 @@ lpf_provider_hafas_bin6_get_trips (LpfProvider *self,
     soup_session_queue_message (priv->session, msg, got_trips, trips_data);
     ret = 0;
  out:
+    soup_uri_free (uri);
     g_free (datestr);
     g_free (timestr);
     g_object_unref (start);
