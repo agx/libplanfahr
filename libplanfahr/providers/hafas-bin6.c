@@ -189,7 +189,7 @@ log_response_body(LpfProviderHafasBin6 *self, SoupMessage *msg, const char* type
                              NULL);
 
     if (!g_file_set_contents (querylog, msg->response_body->data, msg->response_body->length, NULL))
-        g_warning ("Failed tpo write out query contents to %s", querylog);
+        g_warning ("Failed to write out query contents to %s", querylog);
 
     g_free (querylog);
     g_free (filename);
