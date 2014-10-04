@@ -196,8 +196,10 @@ lpf_stop_finalize (GObject *object)
     LpfStopPrivate *priv = GET_PRIVATE (self);
     GObjectClass *parent_class = G_OBJECT_CLASS (lpf_stop_parent_class);
 
-    g_date_time_unref (priv->dep);
-    g_date_time_unref (priv->arr);
+    if (priv->dep)
+        g_date_time_unref (priv->dep);
+    if (priv->arr)
+        g_date_time_unref (priv->arr);
     g_free (priv->name);
     g_free (priv->arr_plat);
     g_free (priv->dep_plat);
