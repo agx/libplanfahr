@@ -776,6 +776,7 @@ lpf_provider_hafas_bin6_parse_station(const gchar *data, guint16 off, LpfLoc *lo
                   NULL);
     ret = 0;
 err:
+    g_free (name);
     return ret;
 }
 
