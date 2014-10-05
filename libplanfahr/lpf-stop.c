@@ -57,7 +57,6 @@ G_DEFINE_TYPE (LpfStop, lpf_stop, LPF_TYPE_LOC)
 
 typedef struct _LpfStopPrivate LpfStopPrivate;
 struct _LpfStopPrivate {
-    gchar *name;
     /* Planned */
     GDateTime *arr, *dep;
     gchar *arr_plat, *dep_plat;
@@ -200,7 +199,6 @@ lpf_stop_finalize (GObject *object)
         g_date_time_unref (priv->dep);
     if (priv->arr)
         g_date_time_unref (priv->arr);
-    g_free (priv->name);
     g_free (priv->arr_plat);
     g_free (priv->dep_plat);
     if (priv->rt_dep)
