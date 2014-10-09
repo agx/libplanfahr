@@ -28,8 +28,8 @@
 #include <glib/gprintf.h>
 #include <gmodule.h>
 
-#include "lpf-trip-part.h"
 #include "lpf-stop.h"
+#include "lpf-trip-part.h"
 #include "lpf-priv.h"
 
 enum {
@@ -59,6 +59,61 @@ struct _LpfTripPartPrivate {
     gchar *line;
     GSList *stops;
 };
+
+
+/**
+ * lpf_trip_part_get_end
+ * @self: A #LpfTripPart
+ *
+ * Returns the end location of this trip part.
+ *
+ * Returns: (transfer full): The end of a #LpfTripPart.
+ **/
+LpfStop*
+lpf_trip_part_get_end(LpfTripPart *self)
+{
+    LpfStop *end;
+
+    g_object_get(self, "end", &end, NULL);
+    return end;
+}
+
+
+/**
+ * lpf_trip_part_get_start
+ * @self: A #LpfTripPart
+ *
+ * Returns the start of this trip part.
+ *
+ * Returns: (transfer full): The start of a #LpfTripPart.
+ **/
+LpfStop*
+lpf_trip_part_get_start(LpfTripPart *self)
+{
+    LpfStop *start;
+
+    g_object_get(self, "start", &start, NULL);
+    return start;
+}
+
+
+/**
+ * lpf_trip_part_get_stops
+ * @self: A #LpfTripPart
+ *
+ * Returns the stops of the the trip part.
+ *
+ * Returns: (transfer none) (element-type LpfStop): The stops of a #LpfTripPart.
+ **/
+GSList*
+lpf_trip_part_get_stops(LpfTripPart *self)
+{
+    GSList *stops;
+
+    g_object_get(self, "stops", &stops, NULL);
+    return stops;
+}
+
 
 static void
 lpf_trip_part_set_property (GObject *object,

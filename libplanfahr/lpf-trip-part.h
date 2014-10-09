@@ -58,6 +58,10 @@ typedef struct {
 
 GType lpf_trip_part_get_type (void);
 
+LpfStop* lpf_trip_part_get_start(LpfTripPart *self);
+LpfStop* lpf_trip_part_get_end(LpfTripPart *self);
+GSList* lpf_trip_part_get_stops(LpfTripPart *self);
+
 G_END_DECLS
 
 #endif /* _LPF_TRIP_PART_H */

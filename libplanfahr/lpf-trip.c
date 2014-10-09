@@ -54,6 +54,24 @@ struct _LpfTripPrivate {
     GSList *parts;
 };
 
+/**
+ * lpf_trip_get_parts:
+ * @self: A #LpfTrip
+ *
+ * Returns the individual parts of the trip.
+ *
+ * Returns: (transfer none) (element-type LpfTripPart): The parts of the trip.
+ **/
+GSList*
+lpf_trip_get_parts(LpfTrip *self)
+{
+    GSList *parts;
+
+    g_object_get(self, "parts", &parts, NULL);
+    return parts;
+}
+
+
 static void
 lpf_trip_set_property (GObject *object,
                       guint property_id,

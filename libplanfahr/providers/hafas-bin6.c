@@ -33,8 +33,9 @@
 #include "lpf-priv.h"
 #include "lpf-provider.h"
 #include "lpf-trip.h"
-#include "lpf-trip-part.h"
 #include "lpf-stop.h"
+#include "lpf-trip-part.h"
+
 
 static void lpf_provider_hafas_bin6_interface_init (LpfProviderInterface *iface);
 

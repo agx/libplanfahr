@@ -26,8 +26,12 @@ LIBPLANFAHR_0.0.0 {
       lpf_stop_get_type;
       /* LpfTrip */
       lpf_trip_get_type;
+      lpf_trip_get_parts;
       /* LpfTripPart */
       lpf_trip_part_get_type;
+      lpf_trip_part_get_end;
+      lpf_trip_part_get_start;
+      lpf_trip_part_get_stops;
   local:
 	*;
 };
