@@ -35,7 +35,7 @@
 #include <glib/gprintf.h>
 
 #define LPF_DEBUG(fmt,...) \
-    g_printf ("DEBUG: %s: " fmt "\n", __func__, ##__VA_ARGS__)
+    g_debug ("%s: " fmt, __func__, ##__VA_ARGS__)
 #else
 #define LPF_DEBUG(fmt,...) \
     do { } while (0)
