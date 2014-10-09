@@ -97,7 +97,7 @@ GStrv lpf_manager_get_available_providers(void)
 
     pattern = plugin_path("*");
     prefix_len = 1 + g_strrstr(pattern, G_DIR_SEPARATOR_S) + strlen(PROVIDER_LIBBASE) - pattern ;
-    LPF_DEBUG("Looking for providers in %s", pattern);
+    g_debug("Looking for providers in %s", pattern);
     if (glob(pattern, GLOB_NOSORT, NULL, &globbuf))
         goto out;
 
@@ -184,7 +184,7 @@ load_provider (const char *path, GError **error)
     provider = (*create_func) ();
     if (provider) {
         g_object_weak_ref (G_OBJECT (provider), (GWeakNotify) g_module_close, module);
-        g_message ("Loaded provider %s", lpf_provider_get_name (provider));
+        g_debug ("Loaded provider %s", lpf_provider_get_name (provider));
     } else {
         g_set_error (error,
                      LPF_MANAGER_ERROR,
@@ -241,7 +241,7 @@ deactivate_provider(gpointer provider, gpointer user_data)
 void
 lpf_manager_deactivate_provider(LpfManager *self, LpfProvider *provider)
 {
-    LPF_DEBUG ("Deactivating provider %s", lpf_provider_get_name (provider));
+    g_debug ("Deactivating provider %s", lpf_provider_get_name (provider));
     lpf_provider_deactivate (provider, G_OBJECT(self));
 }
 
