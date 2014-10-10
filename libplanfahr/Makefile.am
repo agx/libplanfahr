@@ -1,6 +1,6 @@
 include $(top_srcdir)/flymake.mk
 
-SUBDIRS = providers
+SUBDIRS = providers tests
 
 EXTRA_DIST = libplanfahr.sym
 

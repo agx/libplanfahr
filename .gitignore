@@ -46,6 +46,8 @@ docs/reference/libplanfahr-*-sections.txt
 docs/reference/tmpl
 docs/reference/xml
 m4/
+libplanfahr/tests/lpf-manager
+libplanfahr/tests/*.trs
 libplanfahr/providers/tests/hafas-bin6
 libplanfahr/providers/tests/hafas-bin6-format
 libplanfahr/providers/tests/*.trs

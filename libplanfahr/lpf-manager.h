@@ -80,7 +80,7 @@ LpfManager *lpf_manager_new (void);
 GType lpf_manager_get_type (void);
 GQuark lpf_manager_error_quark (void);
 GStrv lpf_manager_get_available_providers(void);
-LpfProvider *lpf_manager_activate_provider(LpfManager *self,
+LpfProvider* lpf_manager_activate_provider(LpfManager *self,
                                            const gchar *name,
                                            GError **error);
 void lpf_manager_deactivate_provider(LpfManager *self, LpfProvider *provider);

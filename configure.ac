@@ -76,6 +76,7 @@ AC_CONFIG_FILES([run],
                 [chmod +x,-w run])
 AC_CONFIG_FILES(Makefile
                 libplanfahr/Makefile
+                libplanfahr/tests/Makefile
                 libplanfahr/providers/Makefile
                 libplanfahr/providers/tests/Makefile
                 data/Makefile
