@@ -193,8 +193,10 @@ lpf_trip_part_finalize (GObject *object)
     LpfTripPartPrivate *priv = GET_PRIVATE (self);
     GObjectClass *parent_class = G_OBJECT_CLASS (lpf_trip_part_parent_class);
 
-    g_object_unref (priv->start);
-    g_object_unref (priv->end);
+    if (priv->start)
+        g_object_unref (priv->start);
+    if (priv->end)
+        g_object_unref (priv->end);
     g_slist_free_full (priv->stops, g_object_unref);
     g_free (priv->line);
 
