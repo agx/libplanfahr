@@ -1,7 +1,10 @@
 include $(top_srcdir)/flymake.mk
 include $(top_srcdir)/glib-tap.mk
 
-test_programs = lpf-manager
+test_programs = \
+	lpf-loc \
+	lpf-manager \
+	$(NULL)
 
 AM_CPPFLAGS = \
 	-DLIBPLANFAHR_COMPILATION \
@@ -34,6 +37,22 @@ lpf_manager_CFLAGS = \
 	$(LIBXML2_CFLAGS) \
 	$(NULL)
 lpf_manager_LDADD = \
+	../providers/libplanfahr-provider-test-test.la \
+	$(LDADD) \
+	$(LIBSOUP_LIBS) \
+	$(LIBXML2_LIBS) \
+	$(NULL)
+
+lpf_loc_SOURCES = \
+	lpf-loc.c \
+	$(NULL)
+
+lpf_loc_CFLAGS = \
+	$(AM_CPPFLAGS) \
+	$(LIBSOUP_CFLAGS) \
+	$(LIBXML2_CFLAGS) \
+	$(NULL)
+lpf_loc_LDADD = \
 	../providers/libplanfahr-provider-test-test.la \
 	$(LDADD) \
 	$(LIBSOUP_LIBS) \
