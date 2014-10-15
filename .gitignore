@@ -46,6 +46,8 @@ docs/reference/libplanfahr-*-sections.txt
 docs/reference/tmpl
 docs/reference/xml
 m4/
+libplanfahr/lpf-enumtypes.c
+libplanfahr/lpf-enumtypes.h
 libplanfahr/tests/lpf-loc
 libplanfahr/tests/lpf-trip
 libplanfahr/tests/lpf-manager

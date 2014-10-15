@@ -28,6 +28,7 @@
 #include <glib/gprintf.h>
 #include <gmodule.h>
 
+#include "lpf-enumtypes.h"
 #include "lpf-trip.h"
 #include "lpf-loc.h"
 #include "lpf-priv.h"

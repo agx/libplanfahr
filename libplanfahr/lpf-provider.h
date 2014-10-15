@@ -60,7 +60,7 @@ typedef enum {
  */
 typedef enum
 {
-    LPF_PROVIDER_GET_LOCS_NONE = 0,
+    LPF_PROVIDER_GET_LOCS_NONE = 0, /*< nick=none >*/
 } LpfProviderGetLocsFlags;
 
 
@@ -74,8 +74,8 @@ typedef enum
  */
 typedef enum
 {
-    LPF_PROVIDER_GET_TRIPS_NONE      =      0,
-    LPF_PROVIDER_GET_TRIPS_ARRIVAL   = 1 << 1,
+    LPF_PROVIDER_GET_TRIPS_NONE      =      0, /*< nick=none >*/
+    LPF_PROVIDER_GET_TRIPS_ARRIVAL   = 1 << 1, /*< nick=arrival >*/
 } LpfProviderGetTripsFlags;
 
 

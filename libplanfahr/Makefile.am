@@ -2,7 +2,15 @@ include $(top_srcdir)/flymake.mk
 
 SUBDIRS = providers tests
 
-EXTRA_DIST = libplanfahr.sym
+EXTRA_DIST = libplanfahr.sym \
+	lpf-enumtypes.c \
+	lpf-enumtypes.h \
+	$(NULL)
+
+BUILT_SOURCES = \
+	lpf-enumtypes.c \
+	lpf-enumtypes.h \
+	$(NULL)
 
 lib_LTLIBRARIES = libplanfahr-0.0.la
 
@@ -17,7 +25,13 @@ PLANFAHR_HEADER_FILES = \
 	lpf-trip-part.h \
 	$(NULL)
 
+PLANFAHR_INCLUDE_HEADER_FILES = \
+	$(PLANFAHR_HEADER_FILES) \
+	lpf-enumtypes.h \
+	$(NULL)
+
 PLANFAHR_SOURCE_FILES = \
+	lpf-enumtypes.c \
 	lpf-manager.c \
 	lpf-provider.c \
 	lpf-loc.c \
@@ -26,9 +40,17 @@ PLANFAHR_SOURCE_FILES = \
 	lpf-trip-part.c \
 	$(NULL)
 
+lpf-enumtypes.h: $(PLANFAHR_HEADER_FILES) lpf-enumtypes.h.template
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(filter %.template,$^) $(filter-out %.template,$^) > \
+	    lpf-enumtypes.h.tmp && mv lpf-enumtypes.h.tmp lpf-enumtypes.h
+
+lpf-enumtypes.c: $(PLANFAHR_HEADER_FILES) lpf-enumtypes.c.template
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(filter %.template,$^) $(filter-out %.template,$^) > \
+	    lpf-enumtypes.c.tmp && mv lpf-enumtypes.c.tmp lpf-enumtypes.c
+
 libplanfahr_0_0_ladir = $(includedir)/libplanfahr-0.0/libplanfahr
 libplanfahr_0_0_la_HEADERS = \
-	$(PLANFAHR_HEADER_FILES) \
+	$(PLANFAHR_INCLUDE_HEADER_FILES) \
 	$(NULL)
 
 libplanfahr_0_0_la_SOURCES = \
@@ -82,16 +104,20 @@ Lpf_0_0_gir_SCANNERFLAGS = \
 	$(NULL)
 Lpf_0_0_gir_FILES = \
 	$(PLANFAHR_SOURCE_FILES:%=$(srcdir)/%) \
-	$(PLANFAHR_HEADER_FILES:%=$(srcdir)/%) \
+	$(PLANFAHR_INCLUDE_HEADER_FILES:%=$(srcdir)/%) \
 	$(NULL)
 
 girdir = $(datadir)/gir-1.0
 nodist_gir_DATA = $(INTROSPECTION_GIRS)
-
 typelibdir = $(libdir)/girepository-1.0
 nodist_typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 
-CLEANFILES = $(nodist_gir_DATA) $(nodist_typelib_DATA)
+CLEANFILES = \
+	$(nodist_gir_DATA) \
+	$(nodist_typelib_DATA) \
+	lpf-enumtypes.c \
+	lpf-enumtypes.h \
+	$(NULL)
 
 endif # HAVE_INTROSPECTION
 
