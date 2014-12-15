@@ -446,7 +446,7 @@ error:
 
 
 static GSList*
-hafas_binary_parse_trips (const char *data, gsize length)
+hafas_binary_parse_trips (const char *data, gsize length, GError **err)
 {
     HafasBin6Header *header;
 #ifdef ENABLE_DEBUG
@@ -462,7 +462,13 @@ hafas_binary_parse_trips (const char *data, gsize length)
     g_return_val_if_fail (length, NULL);
 
     version = *(guint16*)data;
-    g_return_val_if_fail(version == 6, NULL);
+    if (version != 6) {
+        g_set_error (err,
+                     LPF_PROVIDER_ERROR,
+                     LPF_PROVIDER_ERROR_PARSE_FAILED,
+                     "Incorrect Hafas Binary version %d", version);
+        goto out;
+    }
 
     g_return_val_if_fail(sizeof (HafasBin6Header) < length, NULL);
     header = (HafasBin6Header*) data;
@@ -495,12 +501,18 @@ hafas_binary_parse_trips (const char *data, gsize length)
     LPF_DEBUG("Request Id: %s", HAFAS_BIN6_STR(data, ext->req_id_off));
 
     if (ext->err) {
-        g_warning ("Error %d", ext->err);
+        g_set_error (err,
+                     LPF_PROVIDER_ERROR,
+                     LPF_PROVIDER_ERROR_PARSE_FAILED,
+                     "Hafas Blob has error code %d", ext->err);
         goto out;
     }
 
     if (ext->seq <= 0) {
-        g_warning("Illegal sequence number %d", ext->seq);
+        g_set_error (err,
+                     LPF_PROVIDER_ERROR,
+                     LPF_PROVIDER_ERROR_PARSE_FAILED,
+                     "Illegal sequence number %d", ext->seq);
         goto out;
     }
 
@@ -623,11 +635,13 @@ got_trips (SoupSession *session, SoupMessage *msg, gpointer user_data)
     }
 
     LPF_DEBUG("Decompressed to %" G_GSIZE_FORMAT " bytes", len);
-    if ((trips = hafas_binary_parse_trips(decomp, len)) == NULL) {
-        g_set_error (&err,
-                     LPF_PROVIDER_ERROR,
-                     LPF_PROVIDER_ERROR_PARSE_FAILED,
-                     "Failed to parse trips");
+    if ((trips = hafas_binary_parse_trips(decomp, len, &err)) == NULL) {
+        if (err == NULL) {
+            g_set_error (&err,
+                         LPF_PROVIDER_ERROR,
+                         LPF_PROVIDER_ERROR_PARSE_FAILED,
+                         "Failed to parse trips - unknown error");
+        }
         goto out;
     }
 
