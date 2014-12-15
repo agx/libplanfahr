@@ -31,8 +31,8 @@ n */
 #include "hafas-bin6.h"
 #include "lpf-provider.h"
 
-#define LOC_URL    "http://www.fahrinfo-berlin.de/Fahrinfo/bin/query.bin/d"
-#define TRIPS_URL  "http://www.fahrinfo-berlin.de/Fahrinfo/bin/query.bin/d"
+#define LOC_URL    "http://fahrinfo.bvg.de/Fahrinfo/bin/query.bin/d"
+#define TRIPS_URL  "http://fahrinfo.bvg.de/Fahrinfo/bin/query.bin/d"
 
 #define PROVIDER_NAME "de_bvg"
 
