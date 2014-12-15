@@ -708,7 +708,9 @@ lpf_provider_hafas_bin6_get_trips (LpfProvider *self,
                                     "REQ0JourneyTime", timestr,
                                     "REQ0HafasSearchForw", by_departure,
                                     "REQ0JourneyProduct_prod_list_1", train_restriction,
-                                    "h2g-direct", "11", NULL);
+                                    "h2g-direct", "11",
+                                    "clientType", "ANDROID",
+                                    NULL);
 
     LPF_DEBUG ("URI: %s", soup_uri_to_string (uri, FALSE));
 
