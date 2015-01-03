@@ -35,6 +35,7 @@ IGNORE_HFILES = \
 	de-bvg.h    	\
 	de-db.h    	\
 	hafas-bin6.h 	\
+	test-test.h     \
 	$(NULL)
 
 # Images to copy into HTML directory.
