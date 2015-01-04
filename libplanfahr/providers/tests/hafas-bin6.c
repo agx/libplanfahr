@@ -86,7 +86,7 @@ test_parse_trips (void)
     g_assert(g_file_get_contents(LPF_TEST_SRCDIR "/hafas-bin-6-station-query-1.bin", &binary, &length, NULL) == TRUE);
 #endif
 
-    trips = hafas_binary_parse_trips (binary, length);
+    trips = hafas_binary_parse_trips (binary, length, NULL);
 
     g_assert (g_slist_length (trips) == 3);
 
