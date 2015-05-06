@@ -225,10 +225,13 @@ typedef struct _HafasBin6TripPartDetail {
     guint16 arr_pred; /* predicted arrival time */                   /* 0x02 */
     guint16 dep_pos_pred_off;  /* offset into string table */        /* 0x04 */
     guint16 arr_pos_pred_off;  /* offset into string table */        /* 0x06 */
-    guint32 unknown0;                                                /* 0x08 */
+    guint16 flags;      /* flags */                                  /* 0x08 */
+    guint16 unknown0;                                                /* 0x0a */
     guint16 stop_index; /* index of first stop */                    /* 0x0c */
     guint16 stops_cnt;  /* number of stops */                        /* 0x0e */
 } HafasBin6TripPartDetail;
+
+#define HAFAS_BIN6_PART_DETAIL_FLAGS_CANCELED 0x10 /* trip was cancelled */
 
 /**
  * HafasBin6Stop:

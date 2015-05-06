@@ -298,11 +298,14 @@ hafas_bin6_parse_each_trip (const gchar *data, gsize num, guint base, const char
     LpfTrip *trip = NULL;
     LpfTripPart *part = NULL;
     LpfStop *start = NULL, *end = NULL, *astop = NULL;
+    LpfTripStatusFlags status;
     GDateTime *dt;
     GSList *trips = NULL, *parts = NULL, *stops = NULL;
     const char *line;
 
     for (i = 0; i < num; i++) {
+        status = LPF_TRIP_STATUS_FLAGS_NONE;
+
         /* The trips itself */
         t = HAFAS_BIN6_TRIP(data, i);
         day_off = lpf_provider_hafas_bin6_parse_service_day(data, i);
@@ -353,6 +356,11 @@ hafas_bin6_parse_each_trip (const gchar *data, gsize num, guint base, const char
 
             /* trip part details */
             pd = HAFAS_BIN6_TRIP_PART_DETAIL(data, i, j);
+
+            LPF_DEBUG("Trip-Part #%d, Flags:            %4d", j, pd->flags);
+            if (pd->flags & HAFAS_BIN6_PART_DETAIL_FLAGS_CANCELED) {
+                status = LPF_TRIP_STATUS_FLAGS_CANCELED;
+            }
 
             if (pd->arr_pred != HAFAS_BIN6_NO_REALTIME) {
                 h = pd->arr_pred / 100;
@@ -415,8 +423,10 @@ hafas_bin6_parse_each_trip (const gchar *data, gsize num, guint base, const char
             parts = g_slist_append (parts, part);
             part = NULL;
         }
+
         trip = g_object_new (LPF_TYPE_TRIP,
                              "parts", parts,
+                             "status", status,
                              NULL);
         parts = NULL;
         trips = g_slist_append (trips, trip);
