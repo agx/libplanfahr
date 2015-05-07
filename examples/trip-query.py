@@ -61,7 +61,8 @@ def format_full(trips):
     for trip in trips:
         i += 1
         j = 0
-        print ('Trip #%d' % i)
+        msg = ' - CANCELED' if trip.props.status == Lpf.TripStatusFlags.CANCELED else ''
+        print ('Trip #%d%s' % (i, msg))
         for part in trip.props.parts:
             j += 1
             print('   Part #%d' % j)
@@ -91,7 +92,8 @@ def format_terse(trips):
     i = 0
     for trip in trips:
         i += 1
-        print ('Trip #%d' % i)
+        msg = ' - CANCELED' if trip.props.status == Lpf.TripStatusFlags.CANCELED else ''
+        print ('Trip #%d%s' % (i, msg))
         start = trip.props.parts[0].props.start
         end = trip.props.parts[-1].props.end
         print("       Start:     %s" % start.props.name)
