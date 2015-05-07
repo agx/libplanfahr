@@ -91,7 +91,7 @@ int main(int argc, char **argv)
     gboolean ret;
 
     g_test_init (&argc, &argv, NULL);
-    g_setenv(LPF_PROVIDERS_ENV, LPF_TEST_SRCDIR "/../providers/.libs/", TRUE);
+    g_setenv(LPF_PROVIDERS_ENV, LPF_TEST_BUILDDIR "/../providers/.libs/", TRUE);
 
     g_test_add_func ("/libplanfahr/lpf-manager/new", test_lpf_manager);
     g_test_add_func ("/libplanfahr/lpf-manager/get_available-providers", test_lpf_manager_get_available_providers);

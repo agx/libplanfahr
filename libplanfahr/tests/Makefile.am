@@ -9,7 +9,7 @@ test_programs = \
 
 AM_CPPFLAGS = \
 	-DLIBPLANFAHR_COMPILATION \
-	-DLPF_TEST_SRCDIR=\""$(abs_srcdir)"\" \
+	-DLPF_TEST_BUILDDIR=\""$(abs_builddir)"\" \
 	$(GLIB2_CFLAGS) \
 	$(GIO2_CFLAGS) \
 	$(GOBJECT2_CFLAGS) \
