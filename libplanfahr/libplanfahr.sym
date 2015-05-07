@@ -37,6 +37,7 @@ LIBPLANFAHR_0.0.0 {
       lpf_provider_error_get_type;
       lpf_provider_get_locs_flags_get_type;
       lpf_provider_get_trips_flags_get_type;
+      lpf_trip_status_flags_get_type;
   local:
 	*;
 };

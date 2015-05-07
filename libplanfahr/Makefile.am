@@ -3,8 +3,8 @@ include $(top_srcdir)/flymake.mk
 SUBDIRS = providers tests
 
 EXTRA_DIST = libplanfahr.sym \
-	lpf-enumtypes.c \
-	lpf-enumtypes.h \
+	lpf-enumtypes.c.template \
+	lpf-enumtypes.h.template \
 	$(NULL)
 
 BUILT_SOURCES = \

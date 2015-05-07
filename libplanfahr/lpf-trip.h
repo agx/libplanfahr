@@ -31,6 +31,18 @@
 
 G_BEGIN_DECLS
 
+/**
+ * LpfTripStatusFlags:
+ * @LPF_TRIP_STATUS_FLAGS_NONE: No flags set.
+ * @LPF_TRIP_STATUS_FLAGS_CANCELED: Trip got canceled
+ *
+ * Flags used for the status of a #LpfTrip.
+ */
+typedef enum {
+    LPF_TRIP_STATUS_FLAGS_NONE = 0,
+    LPF_TRIP_STATUS_FLAGS_CANCELED = (1<<0),
+} LpfTripStatusFlags;
+
 #define LPF_TYPE_TRIP lpf_trip_get_type()
 
 #define LPF_TRIP(obj)                                            \

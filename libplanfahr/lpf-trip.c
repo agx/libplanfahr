@@ -36,6 +36,7 @@
 enum {
     LPF_TRIP_PROP_0 = 0,
     LPF_TRIP_PROP_PARTS,
+    LPF_TRIP_PROP_STATUS,
 };
 
 /**
@@ -53,6 +54,7 @@ G_DEFINE_TYPE (LpfTrip, lpf_trip, G_TYPE_OBJECT)
 typedef struct _LpfTripPrivate LpfTripPrivate;
 struct _LpfTripPrivate {
     GSList *parts;
+    LpfTripStatusFlags status;
 };
 
 /**
@@ -86,7 +88,9 @@ lpf_trip_set_property (GObject *object,
     case LPF_TRIP_PROP_PARTS:
         priv->parts = g_value_get_pointer(value);
         break;
-
+    case LPF_TRIP_PROP_STATUS:
+        priv->status = g_value_get_flags (value);
+        break;
     default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -107,7 +111,9 @@ lpf_trip_get_property (GObject *object,
     case LPF_TRIP_PROP_PARTS:
         g_value_set_pointer (value, priv->parts);
         break;
-
+    case LPF_TRIP_PROP_STATUS:
+        g_value_set_flags (value, priv->status);
+        break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
         break;
@@ -162,6 +168,22 @@ lpf_trip_class_init (LpfTripClass *klass)
                                                            "trip parts",
                                                            "The parts of the trip",
                                                            G_PARAM_CONSTRUCT | G_PARAM_READWRITE));
+
+/**
+ * LpfTrip:status: (type GSList(LpfTripPart))
+ *
+ * The status of this trip
+ */
+    g_object_class_install_property (object_class,
+                                     LPF_TRIP_PROP_STATUS,
+                                     g_param_spec_flags ("status",
+                                                         "trip status",
+                                                         "The statusof the trip",
+                                                         LPF_TYPE_TRIP_STATUS_FLAGS,
+                                                         LPF_TRIP_STATUS_FLAGS_NONE,
+                                                         G_PARAM_CONSTRUCT |
+                                                         G_PARAM_READWRITE |
+                                                         G_PARAM_STATIC_STRINGS));
 }
 
 static void
