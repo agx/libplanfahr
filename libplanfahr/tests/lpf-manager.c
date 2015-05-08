@@ -38,7 +38,7 @@ test_lpf_manager(void)
 static void
 test_lpf_manager_activate_provider(void)
 {
-    GError *err;
+    GError *err = NULL;
 
     g_assert_nonnull (manager);
     provider = lpf_manager_activate_provider(manager, LPF_TEST_PROVIDER, &err);
@@ -51,7 +51,7 @@ test_lpf_manager_activate_provider(void)
 static void
 test_lpf_manager_activate_nonexistent_provider(void)
 {
-    GError *err;
+    GError *err = NULL;
     LpfProvider *nonexistent;
 
     g_assert_nonnull (manager);
