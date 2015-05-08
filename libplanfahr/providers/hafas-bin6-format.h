@@ -231,7 +231,10 @@ typedef struct _HafasBin6TripPartDetail {
     guint16 stops_cnt;  /* number of stops */                        /* 0x0e */
 } HafasBin6TripPartDetail;
 
-#define HAFAS_BIN6_PART_DETAIL_FLAGS_CANCELED 0x10 /* trip was cancelled */
+#define HAFAS_BIN6_PART_DETAIL_FLAGS_STOP_CANCELED 0x20 /* stop was cancelled */
+#define HAFAS_BIN6_PART_DETAIL_FLAGS_TRIP_CANCELED 0x30 /* trip was cancelled */
+
+#define HAFAS_BIN6_PART_DETAIL_FLAGS_CANCELED_MASK 0x30 /* trip was cancelled */
 
 /**
  * HafasBin6Stop:

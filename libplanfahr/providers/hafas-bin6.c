@@ -358,7 +358,7 @@ hafas_bin6_parse_each_trip (const gchar *data, gsize num, guint base, const char
             pd = HAFAS_BIN6_TRIP_PART_DETAIL(data, i, j);
 
             LPF_DEBUG("Trip-Part #%d, Flags:            %4d", j, pd->flags);
-            if (pd->flags & HAFAS_BIN6_PART_DETAIL_FLAGS_CANCELED) {
+            if (pd->flags & HAFAS_BIN6_PART_DETAIL_FLAGS_CANCELED_MASK) {
                 status = LPF_TRIP_STATUS_FLAGS_CANCELED;
             }
 
