@@ -888,6 +888,11 @@ lpf_provider_hafas_bin6_activate (LpfProvider *self, GObject *obj)
     if (debugstr && strstr (debugstr, "provider"))
         priv->debug = TRUE;
 
+    g_object_set (G_OBJECT (priv->session),
+                  SOUP_SESSION_PROXY_RESOLVER,
+                  g_proxy_resolver_get_default(),
+                  NULL);
+
     dir = g_file_new_for_path (priv->logdir);
     g_file_make_directory_with_parents (dir, NULL, NULL);
     g_object_unref (dir);
