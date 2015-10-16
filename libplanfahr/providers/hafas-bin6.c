@@ -224,7 +224,8 @@ got_locs (SoupSession *session, SoupMessage *msg, gpointer user_data)
         g_set_error (&err,
                      LPF_PROVIDER_ERROR,
                      LPF_PROVIDER_ERROR_REQUEST_FAILED,
-                     "HTTP request failed: %d", msg->status_code);
+                     "Cannot get location: %s",
+                     soup_status_get_phrase(msg->status_code));
         goto out;
     }
 
@@ -634,7 +635,8 @@ got_trips (SoupSession *session, SoupMessage *msg, gpointer user_data)
         g_set_error (&err,
                      LPF_PROVIDER_ERROR,
                      LPF_PROVIDER_ERROR_REQUEST_FAILED,
-                     "HTTP request failed: %d", msg->status_code);
+                     "Cannot get trips: %s",
+                     soup_status_get_phrase(msg->status_code));
         goto out;
     }
 
