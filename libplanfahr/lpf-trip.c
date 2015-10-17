@@ -170,7 +170,7 @@ lpf_trip_class_init (LpfTripClass *klass)
                                                            G_PARAM_CONSTRUCT | G_PARAM_READWRITE));
 
 /**
- * LpfTrip:status: (type GSList(LpfTripPart))
+ * LpfTrip:status: (type LpfTripStatusFlags)
  *
  * The status of this trip
  */
