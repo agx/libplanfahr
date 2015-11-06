@@ -22,6 +22,9 @@
 import sys
 import optparse
 
+from gi import require_version
+
+require_version('Lpf', '0.0')
 from gi.repository import Lpf
 from gi.repository import GObject
 from gi.repository import GLib
