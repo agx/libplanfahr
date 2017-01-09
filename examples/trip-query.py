@@ -19,6 +19,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+import datetime
 import sys
 import optparse
 
@@ -130,7 +131,12 @@ def parse_datetime(when):
     if not when:
         return None
 
-    date, time = when.split('T')
+    try:
+        date, time = when.split('T')
+    except ValueError:
+        time = when
+        date = str(datetime.date.today())
+
     y, m, d = date.split('-')
     H, M = time.split(':')
     return tuple(map(int, [y, m, d, H, M, '00']))
