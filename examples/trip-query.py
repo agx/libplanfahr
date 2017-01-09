@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # vim: set fileencoding=utf-8 :
 #
 # Query trips between the two locations given on the command line
@@ -35,6 +35,7 @@ end = None
 provider = None
 options = None
 
+
 def quit(error=None):
     if error:
         print("Error: %s" % error)
@@ -59,13 +60,14 @@ def locs_cb(locs, userdata, err):
         dt = GLib.DateTime.new_local(*userdata) if userdata else GLib.DateTime.new_now_local()
         provider.get_trips(start, end, dt, 0, trips_cb, None)
 
+
 def format_full(trips):
     i = 0
     for trip in trips:
         i += 1
         j = 0
         msg = ' - CANCELED' if trip.props.status == Lpf.TripStatusFlags.CANCELED else ''
-        print ('Trip #%d%s' % (i, msg))
+        print('Trip #%d%s' % (i, msg))
         for part in trip.props.parts:
             j += 1
             print('   Part #%d' % j)
@@ -91,12 +93,13 @@ def format_full(trips):
                 print("       Stops:     0")
         print("")
 
+
 def format_terse(trips):
     i = 0
     for trip in trips:
         i += 1
         msg = ' - CANCELED' if trip.props.status == Lpf.TripStatusFlags.CANCELED else ''
-        print ('Trip #%d%s' % (i, msg))
+        print('Trip #%d%s' % (i, msg))
         start = trip.props.parts[0].props.start
         end = trip.props.parts[-1].props.end
         print("       Start:     %s" % start.props.name)
@@ -122,6 +125,7 @@ def trips_cb(trips, userdata, err):
         format_terse(trips)
     quit()
 
+
 def parse_datetime(when):
     if not when:
         return None
@@ -130,6 +134,7 @@ def parse_datetime(when):
     y, m, d = date.split('-')
     H, M = time.split(':')
     return tuple(map(int, [y, m, d, H, M, '00']))
+
 
 def main(argv):
     global mainloop, provider, options
@@ -162,6 +167,6 @@ def main(argv):
     mainloop.run()
     return 0
 
+
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
-

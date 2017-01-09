@@ -26,6 +26,6 @@ To run from the compiled source code use
 
 for example
 
-   ./run python examples/trip-query.py Gelsenkirchen Essen
+   ./run python3 examples/trip-query.py Gelsenkirchen Essen
 
 If you want to contribute to libplanfahr see the HACKING document.
