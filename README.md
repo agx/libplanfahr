@@ -22,10 +22,12 @@ To install use
 
 To run from the compiled source code use
 
-   ./run <program>
+    ./run <program>
 
 for example
 
-   ./run python3 examples/trip-query.py Gelsenkirchen Essen
+    ./run python3 examples/trip-query.py Gelsenkirchen Essen
 
 If you want to contribute to libplanfahr see the HACKING document.
+
+## This is *alpha* quality software. It currently does *not* guard at all against malicious network packets! ##
