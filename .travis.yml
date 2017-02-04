@@ -1,0 +1,9 @@
+---
+sudo: required
+language: C
+
+services:
+  - docker
+
+script:
+  - tests/helpers/run-in-docker

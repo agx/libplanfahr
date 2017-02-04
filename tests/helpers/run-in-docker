@@ -1,0 +1,30 @@
+#!/bin/sh
+
+set -eu
+
+PROJECT=libplanfahr
+DEPS="libsoup2.4-dev libglib2.0-dev libxml2-dev gnome-common gtk-doc-tools libgirepository1.0-dev"
+SUITE=jessie
+
+echo $(pwd)
+cat >Dockerfile <<EOF
+FROM debian:$SUITE
+ENV DEBIAN_FRONTEND=noninteractive
+RUN echo "deb http://ftp.de.debian.org/debian sid main" > /etc/apt/sources.list
+RUN apt-get update && apt-get dist-upgrade --yes
+RUN apt-get install -y --no-install-recommends $DEPS
+
+WORKDIR /$PROJECT
+COPY . .
+CMD ./autogen.sh && ./configure && make && make check
+EOF
+
+CIDFILE="$(mktemp --dry-run)"
+TAG="$PROJECT/$SUITE"
+echo "Building Docker image ${TAG}"
+docker build . --tag=${TAG}
+docker run --cidfile=${CIDFILE} ${TAG}
+
+docker rm "$(cat ${CIDFILE})" >/dev/null
+rm -f "${CIDFILE}"
+
