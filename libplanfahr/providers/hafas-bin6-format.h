@@ -245,7 +245,7 @@ typedef struct _HafasBin6TripStop {
     guint16 dep; /* planned departure time at this stop */           /* 0x00 */
     guint16 arr; /* planned arrival time at this stop */             /* 0x02 */
     guint16 dep_pos_off; /* platform, offset into string table */    /* 0x04 */
-    guint16 arr_pos_off; /* platfrom, offset into string table */    /* 0x06 */
+    guint16 arr_pos_off; /* platform, offset into string table */    /* 0x06 */
     guint32 unknown0;                                                /* 0x08 */
     guint16 dep_pred; /* predicted departure time at this stop */    /* 0x0c */
     guint16 arr_pred; /* predicted arrival time at this stop */      /* 0x0e */
