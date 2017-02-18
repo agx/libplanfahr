@@ -35,6 +35,8 @@ start = None
 end = None
 provider = None
 options = None
+G_TIME_SPAN_HOUR = 3600000000
+G_TIME_SPAN_MINUTE = 60000000
 
 
 def quit(error=None):
@@ -60,6 +62,17 @@ def locs_cb(locs, userdata, err):
         print("End: %s" % end.props.name)
         dt = GLib.DateTime.new_local(*userdata) if userdata else GLib.DateTime.new_now_local()
         provider.get_trips(start, end, dt, 0, trips_cb, None)
+
+
+def duration(trip):
+        start = trip.props.parts[0].props.start
+        end = trip.props.parts[-1].props.end
+        duration = GLib.DateTime.difference(
+            end.props.arrival,
+            start.props.departure)
+        hours = duration / G_TIME_SPAN_HOUR
+        minutes = (duration % G_TIME_SPAN_HOUR) / G_TIME_SPAN_MINUTE
+        return (hours, minutes)
 
 
 def format_full(trips):
@@ -92,6 +105,7 @@ def format_full(trips):
                                                  ", ".join([s.props.name for s in part.props.stops])))
             else:
                 print("       Stops:     0")
+        print('   Duration:  %.2d:%.2d' % duration(trip))
         print("")
 
 
@@ -110,6 +124,7 @@ def format_terse(trips):
         print("       Arrival:   %s" % end.props.arrival.format("%F %H:%M"))
         print("       Delay:     %s" % end.props.arrival_delay)
         print("       Switches:  %d" % (len(trip.props.parts)-1))
+        print('       Duration:  %.2d:%.2d' % duration(trip))
         print("")
 
 
