@@ -119,9 +119,13 @@ def format_terse(trips):
         end = trip.props.parts[-1].props.end
         print("       Start:     %s" % start.props.name)
         print("       Departure: %s" % start.props.departure.format("%F %H:%M"))
+        if start.props.dep_plat:
+            print("       Platform:  %s" % start.props.dep_plat)
         print("       Delay:     %s" % start.props.departure_delay)
         print("       End:       %s" % end.props.name)
         print("       Arrival:   %s" % end.props.arrival.format("%F %H:%M"))
+        if end.props.arr_plat:
+            print("       Platform:  %s" % end.props.arr_plat)
         print("       Delay:     %s" % end.props.arrival_delay)
         print("       Switches:  %d" % (len(trip.props.parts)-1))
         print('       Duration:  %.2d:%.2d' % duration(trip))
