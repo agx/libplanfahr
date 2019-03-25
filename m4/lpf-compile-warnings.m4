@@ -12,12 +12,7 @@ AC_DEFUN([LIBPLANFAHR_COMPILE_WARNINGS],[
     AC_ARG_ENABLE([werror],
                   AS_HELP_STRING([--enable-werror], [Use -Werror (if supported)]),
                   [set_werror="$enableval"],
-                  [if test -d $srcdir/.git; then
-                     is_git_version=true
-                     set_werror=yes
-                   else
-                     set_werror=no
-                   fi])
+                  [set_werror=no])
 
     # List of warnings that are not relevant / wanted
 
