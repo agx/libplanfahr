@@ -43,15 +43,16 @@
  */
 
 
-G_DEFINE_TYPE (LpfManager, lpf_manager, G_TYPE_OBJECT)
-#define GET_PRIVATE(o) \
-    (G_TYPE_INSTANCE_GET_PRIVATE ((o), LPF_TYPE_MANAGER, LpfManagerPrivate))
-
-typedef struct _LpfManagerPrivate LpfManagerPrivate;
-struct _LpfManagerPrivate {
+typedef struct _LpfManagerPrivate {
     GSList *active;    /* active providers */
-};
+} LpfManagerPrivate;
 
+typedef struct _LpfManager {
+  GObject parent;
+} LpfManager;
+
+G_DEFINE_TYPE_WITH_PRIVATE (LpfManager, lpf_manager, G_TYPE_OBJECT)
+#define GET_PRIVATE(o) lpf_manager_get_instance_private(o)
 
 GQuark
 lpf_manager_error_quark (void)
@@ -265,7 +266,6 @@ lpf_manager_class_init (LpfManagerClass *klass)
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->dispose = lpf_manager_dispose;
-    g_type_class_add_private (klass, sizeof (LpfManagerPrivate));
 }
 
 static void

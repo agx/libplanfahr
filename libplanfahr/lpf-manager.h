@@ -53,31 +53,9 @@ typedef enum {
 
 #define LPF_TYPE_MANAGER lpf_manager_get_type()
 
-#define LPF_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), LPF_TYPE_MANAGER, LpfManager))
-
-#define LPF_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), LPF_TYPE_MANAGER, LpfManagerClass))
-
-#define LPF_IS_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), LPF_TYPE_MANAGER))
-
-#define LPF_IS_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), LPF_TYPE_MANAGER))
-
-#define LPF_MANAGER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), LPF_TYPE_MANAGER, LpfManagerClass))
-
-typedef struct {
-  GObject parent;
-} LpfManager;
-
-typedef struct {
-  GObjectClass parent_class;
-} LpfManagerClass;
+G_DECLARE_FINAL_TYPE (LpfManager, lpf_manager, LPF, MANAGER, GObject)
 
 LpfManager *lpf_manager_new (void);
-GType lpf_manager_get_type (void);
 GQuark lpf_manager_error_quark (void);
 GStrv lpf_manager_get_available_providers(void);
 LpfProvider* lpf_manager_activate_provider(LpfManager *self,
