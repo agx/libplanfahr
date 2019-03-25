@@ -45,17 +45,20 @@ enum {
  * A #LpfLoc represents a location (e.g. a station)
  */
 
-G_DEFINE_TYPE (LpfLoc, lpf_loc, G_TYPE_OBJECT)
-#define GET_PRIVATE(o) \
-    (G_TYPE_INSTANCE_GET_PRIVATE ((o), LPF_TYPE_LOC, LpfLocPrivate))
 
-typedef struct _LpfLocPrivate LpfLocPrivate;
-struct _LpfLocPrivate {
+typedef struct _LpfLocPrivate {
     gchar *name;
     gdouble long_;
     gdouble lat;
     gpointer opaque;
-};
+} LpfLocPrivate;
+
+typedef struct _LpfLoc {
+  GObject parent;
+} LpfLoc;
+
+G_DEFINE_TYPE_WITH_PRIVATE (LpfLoc, lpf_loc, G_TYPE_OBJECT)
+#define GET_PRIVATE(o) lpf_loc_get_instance_private(o)
 
 static void
 lpf_loc_set_property (GObject *object,
@@ -148,7 +151,6 @@ lpf_loc_class_init (LpfLocClass *klass)
 
     object_class->dispose = lpf_loc_dispose;
     object_class->finalize = lpf_loc_finalize;
-    g_type_class_add_private (klass, sizeof (LpfLocPrivate));
 
     object_class->set_property = lpf_loc_set_property;
     object_class->get_property = lpf_loc_get_property;

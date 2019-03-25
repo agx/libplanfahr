@@ -31,32 +31,10 @@
 
 G_BEGIN_DECLS
 
-#define LPF_TYPE_LOC lpf_loc_get_type()
+#define LPF_TYPE_LOC (lpf_loc_get_type())
 
-#define LPF_LOC(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), LPF_TYPE_LOC, LpfLoc))
+G_DECLARE_FINAL_TYPE (LpfLoc, lpf_loc, LPF, LOC, GObject)
 
-#define LPF_LOC_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), LPF_TYPE_LOC, LpfLocClass))
-
-#define LPF_IS_LOC(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), LPF_TYPE_LOC))
-
-#define LPF_IS_LOC_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), LPF_TYPE_LOC))
-
-#define LPF_LOC_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), LPF_TYPE_LOC, LpfLocClass))
-
-typedef struct {
-  GObject parent;
-} LpfLoc;
-
-typedef struct {
-  GObjectClass parent_class;
-} LpfLocClass;
-
-GType        lpf_loc_get_type (void);
 const gchar *lpf_loc_get_name (LpfLoc* self);
 double       lpf_loc_get_lat  (LpfLoc *self);
 double       lpf_loc_get_long (LpfLoc *self);
